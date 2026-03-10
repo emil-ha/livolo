@@ -1,0 +1,14 @@
+{
+  "domain": "livolo",
+  "name": "Livolo",
+  "codeowners": ["@emil-ha"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/emil-ha/livolo",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/emil-ha/livolo/issues",
+  "requirements": ["paho-mqtt>=1.6.1", "aiohttp>=3.9.0", "cryptography>=41.0.0"],
+  "version": "1.0.0",
+  "loggers": ["custom_components.livolo"]
+}

@@ -1,0 +1,24 @@
+# Services are registered programmatically in __init__.py
+# This file exists to satisfy Home Assistant's service discovery mechanism
+
+refresh_token:
+  name: Refresh Token
+  description: Force refresh of the IoT token (or re-login if refresh fails). Useful for testing token refresh functionality.
+  fields:
+    entry_id:
+      name: Config Entry ID
+      description: Optional. If provided, only refresh token for this specific config entry. If omitted, refreshes all Livolo config entries.
+      required: false
+      selector:
+        text:
+
+generate_dashboard:
+  name: Generate Dashboard YAML
+  description: Generate a Lovelace YAML snippet that groups Livolo entities per device (PowerSwitch_1/2/3 etc). Prefers `light.*` entities if present; otherwise falls back to `switch.*`. The result is emitted as the `livolo_generate_dashboard_result` event.
+  fields:
+    entry_id:
+      name: Config Entry ID
+      description: Optional. If provided, only generate YAML for this specific config entry. If omitted, generates for all Livolo config entries.
+      required: false
+      selector:
+        text:

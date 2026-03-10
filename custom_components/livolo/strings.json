@@ -1,0 +1,22 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Livolo Configuration",
+        "description": "Enter your Livolo account credentials",
+        "data": {
+          "email": "Email",
+          "password": "Password",
+          "country_code": "Country Code (e.g., DE, US)"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid authentication credentials",
+      "unknown": "Unknown error occurred"
+    },
+    "abort": {
+      "already_configured": "Account is already configured"
+    }
+  }
+}
