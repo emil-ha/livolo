@@ -20,6 +20,7 @@ from .const import (
     REGION_MAP,
     TOKEN_EXPIRY_BUFFER_MS,
 )
+from .property_identifiers import ALL_PROPERTY_IDENTIFIERS
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -741,22 +742,7 @@ class LivoloClient:
                 "homeId": home_id,
                 "pageNo": page_no,
                 "pageSize": 20,
-                "propertyIdentifiers": [
-                    "PowerSwitch_1",
-                    "PowerSwitch_2",
-                    "PowerSwitch_3",
-                    "SocketSwitch_1",
-                    "SocketSwitch_2",
-                    "LightSwitch",
-                    "WorkSwitch",
-                    "powerstate",
-                    "Brightness",
-                    "ColorTemperature",
-                    "alarm",
-                    "CurrentTemperature",
-                    "TargetTemperature",
-                    "Gateway",
-                ],
+                "propertyIdentifiers": ALL_PROPERTY_IDENTIFIERS,
             }
             page = await self._api_request("/living/home/element/query", "1.0.6", params)
             items = page.get("items") or page.get("data") or []
