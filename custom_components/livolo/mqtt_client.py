@@ -10,7 +10,7 @@ from typing import Any, Callable
 
 import paho.mqtt.client as mqtt
 
-from .const import MQTT_ENDPOINTS
+from .const import EVENT_MQTT_MESSAGE, MQTT_ENDPOINTS
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -136,6 +136,21 @@ class LivoloMqttClient:
             try:
                 data = json.loads(msg.payload.decode())
                 topic = msg.topic
+
+                if self._hass is not None:
+                    ev = {"topic": topic, "data": data}
+
+                    try:
+                        ev_json = json.dumps(ev, indent=2, ensure_ascii=False)
+                        ev_to_send = {"json": ev_json}
+                    except Exception as format_exc:
+                        _LOGGER.error("Failed to format MQTT event as JSON: %s", format_exc, exc_info=True)
+                        ev_to_send = ev  # fallback to original dict
+
+                    def _emit() -> None:
+                        self._hass.bus.async_fire(EVENT_MQTT_MESSAGE, ev_to_send)
+
+                    self._hass.loop.call_soon_threadsafe(_emit)
 
                 if "/app/down/account/bind_reply" in topic:
                     _LOGGER.debug("Account binding successful")

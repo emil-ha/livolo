@@ -87,6 +87,57 @@ If switches don't update in real-time:
 2. Ensure gateway credentials were obtained during login
 3. Check firewall settings for MQTT port (1883)
 
+
+## Debug events
+
+The integration exposes two optional events for inspection and automations. You can listen under **Developer tools → Events** (event type = the name below) or use them as **triggers** in automations.
+
+### `livolo_get_devices_result`
+
+Fired when you call the **`livolo.get_devices`** service (see `services.yaml`). That service runs the same cloud request the integration uses to load devices (`get_devices()`), then publishes the result on the bus.
+
+| | |
+| --- | --- |
+| **How to trigger** | **Developer tools → Actions** → Domain `livolo`, action `get_devices`. Optionally set `entry_id` to a single config entry; omit it to run for every Livolo integration (one event per entry). |
+| **Event data** | `devices`: a **string** containing pretty-printed JSON (`indent=2`) of the device list returned by the API. Home Assistant event data must be JSON-friendly; the list is therefore sent as formatted text. |
+
+**Example automation trigger** (fires when the event occurs; adjust `action` to match how you invoke the service):
+
+```yaml
+trigger:
+  - platform: event
+    event_type: livolo_get_devices_result
+action:
+  - service: logbook.log
+    data:
+      name: Livolo
+      message: "Device dump received (see event data: devices)"
+```
+
+### `livolo_mqtt_message`
+
+Fired for each incoming MQTT message on the Livolo broker **after** the payload is successfully parsed as JSON (real-time switch updates use this path). Requires a working MQTT session (gateway credentials from login).
+
+| | |
+| --- | --- |
+| **When** | Automatically whenever the integration receives a JSON MQTT payload on subscribed topics. |
+| **Event data** | Normally `json`: a **string** containing pretty-printed JSON of an object with `topic` (MQTT topic) and `data` (parsed message body). If formatting fails, the event may contain `topic` and `data` directly instead. |
+
+**Listen in Developer tools:** subscribe to event type `livolo_mqtt_message`, then toggle a physical switch or wait for cloud push traffic to see payloads.
+
+**Example automation trigger:**
+
+```yaml
+trigger:
+  - platform: event
+    event_type: livolo_mqtt_message
+action:
+  - service: logbook.log
+    data:
+      name: Livolo MQTT
+      message: "MQTT event (see trigger data)"
+```
+
 ## ⚠️ Beta Status & Disclaimer
 
 This integration is currently provided **as-is** and should be considered **beta software**.

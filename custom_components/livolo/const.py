@@ -3,6 +3,9 @@ from __future__ import annotations
 
 DOMAIN = "livolo"
 
+# Fired when any MQTT payload is received from the Livolo broker (see mqtt_client).
+EVENT_MQTT_MESSAGE = f"{DOMAIN}_mqtt_message"
+
 # App credentials
 APP_KEY = ""
 APP_SECRET = ""

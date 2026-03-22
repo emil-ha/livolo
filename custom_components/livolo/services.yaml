@@ -22,3 +22,14 @@ generate_dashboard:
       required: false
       selector:
         text:
+
+get_devices:
+  name: Get devices (debug)
+  description: Calls `LivoloClient.get_devices()` and fires `livolo_get_devices_result` with `devices` set to that return value (list of element dicts). Home Assistant requires event data to be a mapping, so the list is not the top-level event payload.
+  fields:
+    entry_id:
+      name: Config Entry ID
+      description: Optional. If provided, only this config entry. If omitted, runs for every Livolo entry (one event per entry).
+      required: false
+      selector:
+        text:

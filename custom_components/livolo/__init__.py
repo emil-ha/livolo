@@ -20,6 +20,8 @@ SERVICE_REFRESH_TOKEN = "refresh_token"
 EVENT_REFRESH_TOKEN_RESULT = f"{DOMAIN}_refresh_token_result"
 SERVICE_GENERATE_DASHBOARD = "generate_dashboard"
 EVENT_GENERATE_DASHBOARD_RESULT = f"{DOMAIN}_generate_dashboard_result"
+SERVICE_GET_DEVICES = "get_devices"
+EVENT_GET_DEVICES_RESULT = f"{DOMAIN}_get_devices_result"
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry[LivoloDataUpdateCoordinator]) -> bool:
@@ -228,6 +230,35 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry[LivoloDataUp
             _LOGGER.info("livolo.generate_dashboard results (devices per entry): %s", [(r["entry_id"], r["devices"]) for r in results])
             hass.bus.async_fire(EVENT_GENERATE_DASHBOARD_RESULT, {"results": results})
 
+        async def _handle_get_devices(call) -> None:
+            """Call LivoloClient.get_devices() and fire the list on the bus (HA requires a dict wrapper)."""
+            entry_id = call.data.get("entry_id")
+
+            if entry_id:
+                targets = [coordinators.get(entry_id)]
+                targets = [t for t in targets if t is not None]
+            else:
+                targets = list(coordinators.values())
+
+            if not targets:
+                _LOGGER.warning(
+                    "livolo.get_devices called but no matching config entry found (entry_id=%s)",
+                    entry_id,
+                )
+                return
+
+            for c in targets:
+                try:
+                    devices = await c.client.get_devices()
+                    formatted_devices = json.dumps(devices, indent=2, ensure_ascii=False)
+                    hass.bus.async_fire(EVENT_GET_DEVICES_RESULT, {"devices": formatted_devices})
+                except Exception as err:  # noqa: BLE001 - service should never crash HA
+                    _LOGGER.exception(
+                        "livolo.get_devices failed for entry_id=%s: %s",
+                        c.entry.entry_id,
+                        err,
+                    )
+
         # Lazy import to avoid hard dependency at import time in some HA tooling contexts
         import voluptuous as vol
 
@@ -243,9 +274,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry[LivoloDataUp
             _handle_generate_dashboard,
             schema=vol.Schema({vol.Optional("entry_id"): str}),
         )
+        hass.services.async_register(
+            DOMAIN,
+            SERVICE_GET_DEVICES,
+            _handle_get_devices,
+            schema=vol.Schema({vol.Optional("entry_id"): str}),
+        )
         domain_data["service_registered"] = True
         _LOGGER.info("Registered service livolo.%s", SERVICE_REFRESH_TOKEN)
         _LOGGER.info("Registered service livolo.%s", SERVICE_GENERATE_DASHBOARD)
+        _LOGGER.info("Registered service livolo.%s", SERVICE_GET_DEVICES)
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
@@ -266,6 +304,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry[LivoloDataU
         if domain_data.get("service_registered") and not coordinators:
             hass.services.async_remove(DOMAIN, SERVICE_REFRESH_TOKEN)
             hass.services.async_remove(DOMAIN, SERVICE_GENERATE_DASHBOARD)
+            hass.services.async_remove(DOMAIN, SERVICE_GET_DEVICES)
             domain_data["service_registered"] = False
 
     return unload_ok
