@@ -15,12 +15,13 @@ A Home Assistant custom component for controlling Livolo smart switches and devi
 
 1. Install [HACS](https://hacs.xyz/)
 2. Go to HACS → Integrations
-3. Click "Explore & Download Repositories"
-4. Search for "Livolo"
-5. Click "Download"
-6. Restart Home Assistant
-7. Go to Settings → Devices & Services → Add Integration
-8. Search for "Livolo" and configure with your credentials
+3. Click "Custom repository"
+4. Set Repository "https://github.com/emil-ha/livolo"
+5. Set Type "Integration"
+6. Click Add
+7. Restart Home Assistant
+8. Go to Settings → Devices & Services → Add Integration
+9. Search for "Livolo" and configure with your credentials
 
 ### Manual Installation
 
