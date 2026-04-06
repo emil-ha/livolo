@@ -27,6 +27,7 @@ async def async_setup_entry(
 
     entities = []
     devices = coordinator.data.get("devices", [])
+    switch_names = coordinator.data.get("switch_names", {})
     gateway_to_devices = coordinator.data.get("gateway_to_devices", {})
     
     if not devices:
@@ -78,12 +79,14 @@ async def async_setup_entry(
         for prop in property_list:
             identifier = prop.get("identifier")
             if identifier and (identifier.startswith("PowerSwitch_") or identifier.startswith("SocketSwitch_")):
+                entity_name = switch_names.get(f"{iot_id}_{identifier}")
                 entities.append(
                     LivoloSwitchEntity(
                         coordinator,
                         iot_id,
                         identifier,
                         device_name,
+                        entity_name=entity_name,
                         device_info=device,
                         gateway_iot_id=gateway_iot_id,
                     )
@@ -101,6 +104,7 @@ class LivoloSwitchEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], SwitchE
         iot_id: str,
         property_id: str,
         device_name: str,
+        entity_name: str | None = None,
         device_info: dict[str, Any] | None = None,
         gateway_iot_id: str | None = None,
     ) -> None:
@@ -110,7 +114,7 @@ class LivoloSwitchEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], SwitchE
         self._property_id = property_id
         self._device_name = device_name
         self._attr_unique_id = f"{iot_id}_{property_id}"
-        self._attr_name = f"{device_name} {property_id.replace('_', ' ').title()}"
+        self._attr_name = entity_name or f"{device_name} {property_id.replace('_', ' ').title()}"
         
         # Set device info
         if device_info:

@@ -70,6 +70,18 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             # keep MQTT session data in sync even if refresh didn't happen in the pre-check.
             await self._update_mqtt_token()
 
+            switch_names: dict[str, str] = {}
+            try:
+                sync_items = await self.client.get_switch_sync()
+                for item in sync_items:
+                    iot_id = item.get("iot_id")
+                    attr_name = item.get("attr_name")
+                    button_name = item.get("button_name")
+                    if iot_id and attr_name and button_name:
+                        switch_names[f"{iot_id}_{attr_name}"] = str(button_name).strip()
+            except Exception as e:
+                _LOGGER.debug("Failed to get switch sync data: %s", e)
+
             # Build gateway → devices mapping using /subdevices/list
             gateway_to_devices: dict[str, list[str]] = {}
             device_element_ids = {d.get("iotId") or d.get("elementId") for d in devices if d.get("iotId") or d.get("elementId")}
@@ -114,6 +126,7 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
             return {
                 "devices": devices,
+                "switch_names": switch_names,
                 "gateway_to_devices": gateway_to_devices,  # Add mapping to coordinator data
             }
         except Exception as err:
@@ -165,6 +178,7 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         # Update coordinator data, preserving gateway mapping
         self.async_set_updated_data({
             "devices": list(device_map.values()),
+            "switch_names": self.data.get("switch_names", {}),
             "gateway_to_devices": self.data.get("gateway_to_devices", {}),
         })
         _LOGGER.debug("Coordinator data updated from MQTT")

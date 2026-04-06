@@ -265,6 +265,29 @@ class LivoloClient:
                 "aliEndPoint": data_dict.get("aliEndPoint"),
             }
 
+    async def _switch_sync(self, region_url: str, identity_id: str) -> list[dict[str, Any]]:
+        """Get per-switch metadata such as friendly button names."""
+        url = f"{region_url}/switch/sync"
+        request_body = {"identityId": identity_id}
+        self._log_request("POST", url, LIVOLO_HEADERS, request_body)
+
+        async with self._session.post(url, json=request_body, headers=LIVOLO_HEADERS) as resp:
+            text = await self._log_response(resp, url)
+            try:
+                data = json.loads(text) if text else {}
+            except Exception as e:
+                _LOGGER.error("Failed to parse JSON response from switch/sync: %s", e)
+                raise
+
+            if not isinstance(data, dict):
+                raise Exception(f"Unexpected response format from switch/sync endpoint: {type(data)}")
+
+            if data.get("result_code") != "000" and data.get("resultCode") != "000":
+                raise Exception(data.get("result_msg") or data.get("resultMessage") or "switch/sync failed")
+
+            items = data.get("data") or []
+            return items if isinstance(items, list) else []
+
     async def _alibaba_region_get(self, auth_code: str) -> dict[str, Any]:
         """Get Alibaba region info."""
         host = "https://cn-shanghai.api-iot.aliyuncs.com"
@@ -631,6 +654,7 @@ class LivoloClient:
             "sessionId": session_id,
             "iotToken": iot_token,
             "identityId": session_identity_id or identity_id,
+            "signInIdentityId": identity_id,
             "refreshToken": refresh_token,
             "apiGateway": api_gateway,
             "regionUrl": region_url,
@@ -801,6 +825,18 @@ class LivoloClient:
     async def get_device_properties(self, iot_id: str) -> dict[str, Any]:
         """Get device properties."""
         return await self._api_request("/thing/properties/get", "1.0.2", {"iotId": iot_id})
+
+    async def get_switch_sync(self) -> list[dict[str, Any]]:
+        """Get Livolo switch sync data using the identityId from /sns/sign_in."""
+        if not self._session_data:
+            raise Exception("Not logged in")
+
+        region_url = self._session_data.get("regionUrl")
+        identity_id = self._session_data.get("signInIdentityId")
+        if not region_url or not identity_id:
+            return []
+
+        return await self._switch_sync(region_url, identity_id)
 
     async def refresh_token(self) -> bool:
         """Refresh IoT token."""
