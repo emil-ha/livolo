@@ -97,6 +97,7 @@ class LivoloLightEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], LightEnt
 
     _attr_supported_color_modes = {"onoff"}
     _attr_color_mode = "onoff"
+    _attr_has_entity_name = True
 
     def __init__(
         self,
@@ -104,7 +105,7 @@ class LivoloLightEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], LightEnt
         iot_id: str,
         property_id: str,
         device_name: str,
-        device_info: dict[str, Any] | None = None,
+        device_info: dict[str, Any] = {},
         gateway_iot_id: str | None = None,
     ) -> None:
         """Initialize the light."""
@@ -114,7 +115,13 @@ class LivoloLightEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], LightEnt
         # Use the same unique_id format as switch had, so HA can migrate entities properly
         # when switch platform is removed
         self._attr_unique_id = f"{iot_id}_{property_id}"
-        self._attr_name = f"{device_name} {property_id.replace('_', ' ').title()}"
+
+        switch_details = device_info.get("switchDetails", {}).get(property_id, {})
+        name = switch_details.get("buttonName", property_id)
+        if "电" in name or name == property_id or name == "":
+            name = property_id.replace('_', ' ').title()
+
+        self._attr_name = name
 
         if device_info:
             is_gateway = device_info.get("nodeType") == "GATEWAY" or device_info.get("categoryKey") == "GeneralGateway"

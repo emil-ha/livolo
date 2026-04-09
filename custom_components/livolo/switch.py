@@ -94,6 +94,7 @@ async def async_setup_entry(
 
 class LivoloSwitchEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], SwitchEntity):
     """Representation of a Livolo switch."""
+    _attr_has_entity_name = True
 
     def __init__(
         self,
@@ -101,7 +102,7 @@ class LivoloSwitchEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], SwitchE
         iot_id: str,
         property_id: str,
         device_name: str,
-        device_info: dict[str, Any] | None = None,
+        device_info: dict[str, Any] = {},
         gateway_iot_id: str | None = None,
     ) -> None:
         """Initialize the switch."""
@@ -110,7 +111,13 @@ class LivoloSwitchEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], SwitchE
         self._property_id = property_id
         self._device_name = device_name
         self._attr_unique_id = f"{iot_id}_{property_id}"
-        self._attr_name = f"{device_name} {property_id.replace('_', ' ').title()}"
+       
+        switch_details = device_info.get("switchDetails", {}).get(property_id, {})
+        name = switch_details.get("buttonName", property_id)
+        if "电" in name or name == property_id or name == "":
+            name = property_id.replace('_', ' ').title()
+
+        self._attr_name = name
         
         # Set device info
         if device_info:

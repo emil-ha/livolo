@@ -69,7 +69,7 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             # get_devices() can trigger refresh/re-login via LivoloClient retry logic;
             # keep MQTT session data in sync even if refresh didn't happen in the pre-check.
             await self._update_mqtt_token()
-
+            
             # Build gateway → devices mapping using /subdevices/list
             gateway_to_devices: dict[str, list[str]] = {}
             device_element_ids = {d.get("iotId") or d.get("elementId") for d in devices if d.get("iotId") or d.get("elementId")}

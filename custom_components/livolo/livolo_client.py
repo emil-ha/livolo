@@ -755,7 +755,80 @@ class LivoloClient:
             page_no += 1
             if page_no > 50:
                 break
+
+        # Enrich devices with per-switch button names from Livolo backend (/switch/user/buttons).
+        by_iot_id = await self.get_user_switch_buttons()
+        for d in all_devices:
+            d_id = d.get("iotId") or d.get("elementId")
+            if d_id and d_id in by_iot_id:
+                d["switchDetails"] = by_iot_id[d_id]
+
+        _LOGGER.info(f"all_devices: {all_devices}")
+
         return all_devices
+
+    async def get_user_switch_buttons(self) -> dict[str, list[dict[str, Any]]]:
+        """Fetch per-user switch button names from Livolo backend and normalize to mapping.
+
+        Mirrors Android: GET {regionUrl}/switch/user/buttons?identityId=...
+
+        Expected responses seen in the wild:
+        - {"result_code":"000","data":[{"iotId":"...","buttons":[...]}]}
+        - [{"iotId":"...","buttons":[...]}]  (already-unwrapped)
+        """
+        if not self._session_data:
+            raise Exception("Not logged in")
+
+        region_url = (self._session_data.get("regionUrl") or "").rstrip("/")
+        identity_id = self._session_data.get("identityId")
+        if not region_url:
+            raise Exception("Missing session regionUrl")
+        if not identity_id:
+            raise Exception("Missing session identityId")
+
+        url = f"{region_url}/switch/user/buttons"
+        params = {"identityId": identity_id}
+        self._log_request("GET", url, LIVOLO_HEADERS, params)
+
+        async with self._session.get(url, params=params, headers=LIVOLO_HEADERS) as resp:
+            text = await self._log_response(resp, url)
+            if not text:
+                return {}
+            try:
+                data = json.loads(text)
+            except Exception as e:
+                raise Exception(f"Failed to parse /switch/user/buttons JSON: {e}") from e
+
+            # Unwrap Livolo envelope if present
+            if isinstance(data, dict) and ("result_code" in data or "resultCode" in data):
+                code = data.get("result_code") or data.get("resultCode")
+                if str(code) != "000":
+                    raise Exception(data.get("result_msg") or data.get("resultMessage") or "switch/user/buttons failed")
+                payload = data.get("data")
+            else:
+                payload = data
+
+            if payload is None:
+                return {}
+
+            # Normalize possible payload shapes to: iotId -> buttons[]
+            by_iot_id: dict[str, list[dict[str, Any]]] = {}
+
+            for item in payload:
+                if not isinstance(item, dict):
+                    continue
+                iot_id = item.get("iotId")
+                buttons = item.get("buttons")
+                if not iot_id or not isinstance(buttons, list):
+                    continue
+                # Ensure list items are dicts (best effort)
+                by_iot_id[str(iot_id)] = {
+                    b.get("propertyIdentifier"): b
+                    for b in buttons
+                    if isinstance(b, dict) and b.get("propertyIdentifier") is not None
+                }
+           
+            return by_iot_id
 
     async def get_gateway_subdevices(self, gateway_iot_id: str) -> list[dict[str, Any]]:
         """Get child devices for a gateway using /subdevices/list API.
