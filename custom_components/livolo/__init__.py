@@ -23,6 +23,9 @@ EVENT_GENERATE_DASHBOARD_RESULT = f"{DOMAIN}_generate_dashboard_result"
 SERVICE_GET_DEVICES = "get_devices"
 EVENT_GET_DEVICES_RESULT = f"{DOMAIN}_get_devices_result"
 
+async def _update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Handle options updates by reloading the entry."""
+    await hass.config_entries.async_reload(entry.entry_id)
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry[LivoloDataUpdateCoordinator]) -> bool:
     """Set up Livolo from a config entry."""
@@ -35,6 +38,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry[LivoloDataUp
     
     # Store coordinator in runtime_data (modern pattern)
     entry.runtime_data = coordinator
+
+    entry.async_on_unload(entry.add_update_listener(_update_listener))
 
     # Keep a registry of coordinators for domain services (so we can target a specific entry).
     domain_data = hass.data.setdefault(DOMAIN, {})

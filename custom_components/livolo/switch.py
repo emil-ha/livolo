@@ -11,7 +11,7 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
+from .const import CONF_HAS_ENTITY_NAME, DOMAIN
 from .coordinator import LivoloDataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -94,7 +94,6 @@ async def async_setup_entry(
 
 class LivoloSwitchEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], SwitchEntity):
     """Representation of a Livolo switch."""
-    _attr_has_entity_name = True
 
     def __init__(
         self,
@@ -111,7 +110,7 @@ class LivoloSwitchEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], SwitchE
         self._property_id = property_id
         self._device_name = device_name
         self._attr_unique_id = f"{iot_id}_{property_id}"
-       
+        self._attr_has_entity_name = bool(getattr(coordinator, "entry", None) and coordinator.entry.options.get(CONF_HAS_ENTITY_NAME, False))
         switch_details = device_info.get("switchDetails", {}).get(property_id, {})
         name = switch_details.get("buttonName", property_id)
         if "电" in name or name == property_id or name == "":

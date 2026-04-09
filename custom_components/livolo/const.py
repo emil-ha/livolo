@@ -3,6 +3,9 @@ from __future__ import annotations
 
 DOMAIN = "livolo"
 
+# Options keys
+CONF_HAS_ENTITY_NAME = "has_entity_name"
+
 # Fired when any MQTT payload is received from the Livolo broker (see mqtt_client).
 EVENT_MQTT_MESSAGE = f"{DOMAIN}_mqtt_message"
 
