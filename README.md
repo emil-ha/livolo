@@ -161,3 +161,5 @@ The author(s) of this integration **are not responsible for**:
 Use it **at your own risk**.
 
 If you encounter issues, please open an issue in the repository with logs and details so the community can help improve the integration.
+
+<a href="https://www.buymeacoffee.com/emildev" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px !important;width: 217px !important;" ></a>
