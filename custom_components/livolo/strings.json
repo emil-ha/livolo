@@ -10,7 +10,8 @@
           "country_code": "Country Code (e.g., DE, US)",
           "app_key": "App Key",
           "app_secret": "App Secret",
-          "has_entity_name": "Compose entity name with device name ex: Device Name Switch Name"
+          "has_entity_name": "Compose entity name with device name ex: Device Name Switch Name",
+          "mock_mode": "Mock mode (use bundled JSON from livolo-rest-api mocks; no cloud)"
         }
       }
     },

@@ -6,6 +6,9 @@ DOMAIN = "livolo"
 # Options keys
 CONF_HAS_ENTITY_NAME = "has_entity_name"
 
+# Config entry data
+CONF_MOCK_MODE = "mock_mode"
+
 # Fired when any MQTT payload is received from the Livolo broker (see mqtt_client).
 EVENT_MQTT_MESSAGE = f"{DOMAIN}_mqtt_message"
 

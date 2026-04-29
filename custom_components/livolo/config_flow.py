@@ -11,7 +11,7 @@ from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import APP_KEY, APP_SECRET, CONF_HAS_ENTITY_NAME, DOMAIN
+from .const import APP_KEY, APP_SECRET, CONF_HAS_ENTITY_NAME, CONF_MOCK_MODE, DOMAIN
 from .livolo_client import LivoloClient
 
 _LOGGER = logging.getLogger(__name__)
@@ -24,6 +24,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         vol.Required("app_key", default=APP_KEY): str,
         vol.Required("app_secret", default=APP_SECRET): str,
         vol.Optional(CONF_HAS_ENTITY_NAME, default=False): bool,
+        vol.Optional(CONF_MOCK_MODE, default=False): bool,
     }
 )
 
@@ -60,6 +61,7 @@ class LivoloConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 user_input.get("country_code", "DE"),
                 app_key=user_input.get("app_key") or APP_KEY,
                 app_secret=user_input.get("app_secret") or APP_SECRET,
+                mock_mode=bool(user_input.get(CONF_MOCK_MODE)),
             )
             session = await client.login()
             if not session:

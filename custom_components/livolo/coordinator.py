@@ -11,7 +11,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import APP_KEY, APP_SECRET, DOMAIN, TOKEN_EXPIRY_BUFFER_MS
+from .const import APP_KEY, APP_SECRET, CONF_MOCK_MODE, DOMAIN, TOKEN_EXPIRY_BUFFER_MS
 from .livolo_client import LivoloClient
 from .mqtt_client import LivoloMqttClient
 
@@ -34,6 +34,7 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             entry.data.get("country_code", "DE"),
             app_key=entry.data.get("app_key") or APP_KEY,
             app_secret=entry.data.get("app_secret") or APP_SECRET,
+            mock_mode=bool(entry.data.get(CONF_MOCK_MODE)),
         )
         self.mqtt_client: LivoloMqttClient | None = None
         super().__init__(
@@ -52,7 +53,7 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 await self.client.login()
                 # If MQTT is already running for some reason, ensure it has the new session data
                 await self._update_mqtt_token()
-            else:
+            elif not self.client.is_mock_mode():
                 # Check if token needs refresh
                 expires_at = session_data.get("iotTokenExpiresAt", 0)
                 if expires_at and expires_at <= int(time.time() * 1000) + TOKEN_EXPIRY_BUFFER_MS:
@@ -69,7 +70,7 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             # get_devices() can trigger refresh/re-login via LivoloClient retry logic;
             # keep MQTT session data in sync even if refresh didn't happen in the pre-check.
             await self._update_mqtt_token()
-            
+
             # Build gateway → devices mapping using /subdevices/list
             gateway_to_devices: dict[str, list[str]] = {}
             device_element_ids = {d.get("iotId") or d.get("elementId") for d in devices if d.get("iotId") or d.get("elementId")}
@@ -217,7 +218,10 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             await self.mqtt_client.disconnect()
         await super().async_shutdown()
 
-    async def set_device_property(self, iot_id: str, property_id: str, value: int) -> None:
-        """Set device property."""
+    async def set_device_property(
+        self, iot_id: str, property_id: str, value: int | float | str | dict[str, Any]
+    ) -> None:
+        """Set device property (value may be a struct dict e.g. HSVColor)."""
+        _LOGGER.debug("set_device_property iot_id=%s property_id=%s value=%s", iot_id, property_id, value)
         await self.client.set_device_properties(iot_id, {property_id: value})
         await self.async_request_refresh()

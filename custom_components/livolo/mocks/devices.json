@@ -1,0 +1,2349 @@
+{
+  "pageNo": 1,
+  "pageSize": 100,
+  "total": 62,
+  "items": [
+    {
+      "nodeType": "GATEWAY",
+      "thingType": "GATEWAY",
+      "productKey": "a25c34Wbg4I",
+      "deviceName": "GATEWAY_WIFI_001",
+      "productName": "Gateway Wi-Fi 2.0",
+      "iotId": "iot-a25c34Wbg4I-001",
+      "elementId": "iot-a25c34Wbg4I-001",
+      "status": 1,
+      "nickName": "Gateway Wi-Fi 2.0",
+      "categoryKey": "GeneralGateway",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "IPAddress",
+          "value": "192.168.1.12",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000002
+        },
+        {
+          "identifier": "ControlToken",
+          "value": "token-gw-v2",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000002
+        },
+        {
+          "identifier": "Version",
+          "value": "2.2.1",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000002
+        }
+      ]
+    },
+    {
+      "nodeType": "GATEWAY",
+      "thingType": "GATEWAY",
+      "productKey": "a1gkK9zsY5h",
+      "deviceName": "GATEWAY_WIFI_3_001",
+      "productName": "Gateway Wi-Fi 3.0",
+      "iotId": "iot-a1gkK9zsY5h-001",
+      "elementId": "iot-a1gkK9zsY5h-001",
+      "status": 1,
+      "nickName": "Gateway Wi-Fi 3.0",
+      "categoryKey": "GeneralGateway",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "IPAddress",
+          "value": "192.168.1.13",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000003
+        },
+        {
+          "identifier": "ControlToken",
+          "value": "token-gw-v3",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000003
+        },
+        {
+          "identifier": "Version",
+          "value": "3.1.0",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000003
+        }
+      ]
+    },
+    {
+      "nodeType": "GATEWAY",
+      "thingType": "GATEWAY",
+      "productKey": "a1eejrlQBo9",
+      "deviceName": "GATEWAY_WIFI_4_001",
+      "productName": "Gateway Wi-Fi 4.0",
+      "iotId": "iot-a1eejrlQBo9-001",
+      "elementId": "iot-a1eejrlQBo9-001",
+      "status": 1,
+      "nickName": "Gateway Wi-Fi 4.0",
+      "categoryKey": "GeneralGateway",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "IPAddress",
+          "value": "192.168.1.14",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000004
+        },
+        {
+          "identifier": "ControlToken",
+          "value": "token-gw-v4",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000004
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a1eejrlQBo9-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000004
+        },
+        {
+          "identifier": "Version",
+          "value": "4.0.6",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000004
+        }
+      ]
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "ecswitch",
+      "deviceName": "EC_SWITCH_001",
+      "productName": "EC Switch",
+      "iotId": "iot-ecswitch-001",
+      "elementId": "iot-ecswitch-001",
+      "status": 1,
+      "nickName": "EC Switch",
+      "categoryKey": "WallSwitch",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000005
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990001
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2dajwFdCKY",
+      "deviceName": "SWITCH_1_001",
+      "productName": "Switch 1",
+      "iotId": "iot-a2dajwFdCKY-001",
+      "elementId": "iot-a2dajwFdCKY-001",
+      "status": 1,
+      "nickName": "Switch 1",
+      "categoryKey": "WallSwitch",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000006
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990002
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2eVlMRRgcG",
+      "deviceName": "SWITCH_2_001",
+      "productName": "Switch 2",
+      "iotId": "iot-a2eVlMRRgcG-001",
+      "elementId": "iot-a2eVlMRRgcG-001",
+      "status": 1,
+      "nickName": "Switch 2",
+      "categoryKey": "WallSwitch",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000007
+        },
+        {
+          "identifier": "PowerSwitch_2",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000007
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990003
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2PTqMw3fJs",
+      "deviceName": "SWITCH_3_001",
+      "productName": "Switch 3",
+      "iotId": "iot-a2PTqMw3fJs-001",
+      "elementId": "iot-a2PTqMw3fJs-001",
+      "status": 1,
+      "nickName": "Switch 3",
+      "categoryKey": "WallSwitch",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000008
+        },
+        {
+          "identifier": "PowerSwitch_2",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000008
+        },
+        {
+          "identifier": "PowerSwitch_3",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000008
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990004
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a29rkRBKMOR",
+      "deviceName": "SWITCH_4_001",
+      "productName": "Switch 4",
+      "iotId": "iot-a29rkRBKMOR-001",
+      "elementId": "iot-a29rkRBKMOR-001",
+      "status": 1,
+      "nickName": "Switch 4",
+      "categoryKey": "WallSwitch",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000009
+        },
+        {
+          "identifier": "PowerSwitch_2",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000009
+        },
+        {
+          "identifier": "PowerSwitch_3",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000009
+        },
+        {
+          "identifier": "PowerSwitch_4",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000009
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990005
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a24T6EXbXVi",
+      "deviceName": "SWITCH_5_001",
+      "productName": "Switch 5",
+      "iotId": "iot-a24T6EXbXVi-001",
+      "elementId": "iot-a24T6EXbXVi-001",
+      "status": 1,
+      "nickName": "Switch 5",
+      "categoryKey": "WallSwitch",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000010
+        },
+        {
+          "identifier": "PowerSwitch_2",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000010
+        },
+        {
+          "identifier": "PowerSwitch_3",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000010
+        },
+        {
+          "identifier": "PowerSwitch_4",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000010
+        },
+        {
+          "identifier": "PowerSwitch_5",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000010
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990006
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2M4ZB6cL0z",
+      "deviceName": "SWITCH_6_001",
+      "productName": "Switch 6",
+      "iotId": "iot-a2M4ZB6cL0z-001",
+      "elementId": "iot-a2M4ZB6cL0z-001",
+      "status": 1,
+      "nickName": "Switch 6",
+      "categoryKey": "WallSwitch",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000011
+        },
+        {
+          "identifier": "PowerSwitch_2",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000011
+        },
+        {
+          "identifier": "PowerSwitch_3",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000011
+        },
+        {
+          "identifier": "PowerSwitch_4",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000011
+        },
+        {
+          "identifier": "PowerSwitch_5",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000011
+        },
+        {
+          "identifier": "PowerSwitch_6",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000011
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990007
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1GsAkk2Uc7",
+      "deviceName": "SWITCH_RESET_2_001",
+      "productName": "Switch Reset 2",
+      "iotId": "iot-a1GsAkk2Uc7-001",
+      "elementId": "iot-a1GsAkk2Uc7-001",
+      "status": 1,
+      "nickName": "Switch Reset 2",
+      "categoryKey": "WallSwitch",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000012
+        },
+        {
+          "identifier": "PowerSwitch_2",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000012
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990008
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2c6jLBqZNy",
+      "deviceName": "SOCKET_1_001",
+      "productName": "Socket 1",
+      "iotId": "iot-a2c6jLBqZNy-001",
+      "elementId": "iot-a2c6jLBqZNy-001",
+      "status": 1,
+      "nickName": "Socket 1",
+      "categoryKey": "Socket",
+      "roomName": "Kitchen",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "SocketSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000013
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990009
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1hsvy3mOfN",
+      "deviceName": "SOCKET_1_0_001",
+      "productName": "Socket 1.0",
+      "iotId": "iot-a1hsvy3mOfN-001",
+      "elementId": "iot-a1hsvy3mOfN-001",
+      "status": 1,
+      "nickName": "Socket 1.0",
+      "categoryKey": "Socket",
+      "roomName": "Kitchen",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "SocketSwitch_1",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000014
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990010
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1QTxJRCVK1",
+      "deviceName": "SOCKET_1_1_001",
+      "productName": "Socket 1.1",
+      "iotId": "iot-a1QTxJRCVK1-001",
+      "elementId": "iot-a1QTxJRCVK1-001",
+      "status": 1,
+      "nickName": "Socket 1.1",
+      "categoryKey": "Socket",
+      "roomName": "Kitchen",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "SocketSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000015
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990011
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2qMZQYlh6V",
+      "deviceName": "SOCKET_2_001",
+      "productName": "Socket 2",
+      "iotId": "iot-a2qMZQYlh6V-001",
+      "elementId": "iot-a2qMZQYlh6V-001",
+      "status": 1,
+      "nickName": "Socket 2",
+      "categoryKey": "Socket",
+      "roomName": "Kitchen",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "SocketSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000016
+        },
+        {
+          "identifier": "SocketSwitch_2",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000016
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990012
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2qMZQYlh6V_2",
+      "deviceName": "UK_SOCKET_3_001",
+      "productName": "UK Socket USB",
+      "iotId": "iot-a2qMZQYlh6V_2-001",
+      "elementId": "iot-a2qMZQYlh6V_2-001",
+      "status": 1,
+      "nickName": "UK Socket USB",
+      "categoryKey": "Socket",
+      "roomName": "Kitchen",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "SocketSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000017
+        },
+        {
+          "identifier": "SocketSwitch_2",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000017
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990013
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2eqOWErcAa",
+      "deviceName": "SOCKET_3_001",
+      "productName": "Socket 3",
+      "iotId": "iot-a2eqOWErcAa-001",
+      "elementId": "iot-a2eqOWErcAa-001",
+      "status": 1,
+      "nickName": "Socket 3",
+      "categoryKey": "Socket",
+      "roomName": "Kitchen",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "SocketSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000018
+        },
+        {
+          "identifier": "SocketSwitch_2",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000018
+        },
+        {
+          "identifier": "SocketSwitch_3",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000018
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990014
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a26AA7c5o6j",
+      "deviceName": "DIMMER_1_001",
+      "productName": "Dimmer 1",
+      "iotId": "iot-a26AA7c5o6j-001",
+      "elementId": "iot-a26AA7c5o6j-001",
+      "status": 1,
+      "nickName": "Dimmer 1",
+      "categoryKey": "Dimmer",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "on",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000019
+        },
+        {
+          "identifier": "bri",
+          "value": "70",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000019
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990015
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2VWl4Ko6DY",
+      "deviceName": "DIMMER_2_001",
+      "productName": "Dimmer 2",
+      "iotId": "iot-a2VWl4Ko6DY-001",
+      "elementId": "iot-a2VWl4Ko6DY-001",
+      "status": 1,
+      "nickName": "Dimmer 2",
+      "categoryKey": "Dimmer",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000020
+        },
+        {
+          "identifier": "bri",
+          "value": "60",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000020
+        },
+        {
+          "identifier": "PowerSwitch_2",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000020
+        },
+        {
+          "identifier": "bri_2",
+          "value": "35",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000020
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990016
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2R4zYk3g0l",
+      "deviceName": "DIMMER_3_001",
+      "productName": "Dimmer 3",
+      "iotId": "iot-a2R4zYk3g0l-001",
+      "elementId": "iot-a2R4zYk3g0l-001",
+      "status": 1,
+      "nickName": "Dimmer 3",
+      "categoryKey": "Dimmer",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000021
+        },
+        {
+          "identifier": "PowerSwitch_2",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000021
+        },
+        {
+          "identifier": "PowerSwitch_3",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000021
+        },
+        {
+          "identifier": "bri",
+          "value": "45",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000021
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990017
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1WzhL5Rvtv",
+      "deviceName": "SLIDE_DIMMER_1_001",
+      "productName": "Slide Dimmer 1",
+      "iotId": "iot-a1WzhL5Rvtv-001",
+      "elementId": "iot-a1WzhL5Rvtv-001",
+      "status": 1,
+      "nickName": "Slide Dimmer",
+      "categoryKey": "Dimmer",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "on",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000022
+        },
+        {
+          "identifier": "bri",
+          "value": "55",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000022
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990018
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2RG9UH6R3R",
+      "deviceName": "CURTAIN_1_001",
+      "productName": "Curtain Panel",
+      "iotId": "iot-a2RG9UH6R3R-001",
+      "elementId": "iot-a2RG9UH6R3R-001",
+      "status": 1,
+      "nickName": "Curtain Panel",
+      "categoryKey": "Curtain",
+      "roomName": "Bedroom",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "CurtainPosition",
+          "value": "40",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000023
+        },
+        {
+          "identifier": "CurtainOperation",
+          "value": "2",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000023
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990019
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2na33Z5FED",
+      "deviceName": "SOUND_LIGHT_SENSOR_001",
+      "productName": "Sound Light Sensor",
+      "iotId": "iot-a2na33Z5FED-001",
+      "elementId": "iot-a2na33Z5FED-001",
+      "status": 1,
+      "nickName": "Sound/Light Sensor",
+      "categoryKey": "Sensor",
+      "roomName": "Corridor",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "MeasuredIlluminance",
+          "value": "120",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000024
+        },
+        {
+          "identifier": "MeasuredVoice",
+          "value": "33",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000024
+        },
+        {
+          "identifier": "VoiceMode",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000024
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990020
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2NmZb9T8e9",
+      "deviceName": "TEMPERATURE_HUMIDITY_SENSOR_001",
+      "productName": "Temperature Humidity Sensor",
+      "iotId": "iot-a2NmZb9T8e9-001",
+      "elementId": "iot-a2NmZb9T8e9-001",
+      "status": 1,
+      "nickName": "Temp/Humidity",
+      "categoryKey": "Sensor",
+      "roomName": "Bedroom",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "CurrentTemperature",
+          "value": "23.4",
+          "dataType": "FLOAT",
+          "latestUpdateMillis": 1711271000025
+        },
+        {
+          "identifier": "CurrentFahrenheit",
+          "value": "74.1",
+          "dataType": "FLOAT",
+          "latestUpdateMillis": 1711271000025
+        },
+        {
+          "identifier": "CurrentHumidity",
+          "value": "57",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000025
+        },
+        {
+          "identifier": "DevConfig",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000025
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990021
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1pJyZvG7O7",
+      "deviceName": "BODY_SENSOR_001",
+      "productName": "Body Sensor",
+      "iotId": "iot-a1pJyZvG7O7-001",
+      "elementId": "iot-a1pJyZvG7O7-001",
+      "status": 1,
+      "nickName": "Body Sensor",
+      "categoryKey": "Sensor",
+      "roomName": "Corridor",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "MotionAlarmState",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000026
+        },
+        {
+          "identifier": "DelayTime",
+          "value": "20",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000026
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990022
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1X9X7v18Il",
+      "deviceName": "EC_BODY_SENSOR_001",
+      "productName": "EC Body Sensor",
+      "iotId": "iot-a1X9X7v18Il-001",
+      "elementId": "iot-a1X9X7v18Il-001",
+      "status": 1,
+      "nickName": "EC Body Sensor",
+      "categoryKey": "Sensor",
+      "roomName": "Corridor",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "AlarmState",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000027
+        },
+        {
+          "identifier": "DelayTime",
+          "value": "18",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000027
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990023
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1Mx8l8jUlR",
+      "deviceName": "MOVE_BODY_SENSOR_001",
+      "productName": "Move Body Sensor",
+      "iotId": "iot-a1Mx8l8jUlR-001",
+      "elementId": "iot-a1Mx8l8jUlR-001",
+      "status": 1,
+      "nickName": "Move Body Sensor",
+      "categoryKey": "Sensor",
+      "roomName": "Corridor",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "MotionAlarmState",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000028
+        },
+        {
+          "identifier": "DelayTime",
+          "value": "30",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000028
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990024
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1pPiEXahAk",
+      "deviceName": "LIGHT_STRIP_001",
+      "productName": "Light Strip",
+      "iotId": "iot-a1pPiEXahAk-001",
+      "elementId": "iot-a1pPiEXahAk-001",
+      "status": 1,
+      "nickName": "Light Strip",
+      "categoryKey": "Light",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "powerstate",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000029
+        },
+        {
+          "identifier": "HSVColor",
+          "value": "{\"Hue\":320,\"Saturation\":62,\"Value\":40}",
+          "dataType": "STRUCT",
+          "latestUpdateMillis": 1711271000029
+        },
+        {
+          "identifier": "RGBMode",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000029
+        },
+        {
+          "identifier": "Version",
+          "value": "2.0.1",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000029
+        },
+        {
+          "identifier": "MacAddress",
+          "value": "10:20:30:40:50:60",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000029
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990025
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1qrHHEEgTO",
+      "deviceName": "CURTAIN_MOTOR_001",
+      "productName": "Curtain Motor",
+      "iotId": "iot-a1qrHHEEgTO-001",
+      "elementId": "iot-a1qrHHEEgTO-001",
+      "status": 1,
+      "nickName": "Curtain Motor",
+      "categoryKey": "Curtain",
+      "roomName": "Bedroom",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "CurtainPosition",
+          "value": "76",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000030
+        },
+        {
+          "identifier": "ModeSettings",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000030
+        },
+        {
+          "identifier": "Speed",
+          "value": "2",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000030
+        },
+        {
+          "identifier": "BatteryPercentage",
+          "value": "81",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000030
+        },
+        {
+          "identifier": "SoftwareInfo",
+          "value": "v1.2.7",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000030
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990026
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1hf0pqoGhe",
+      "deviceName": "SMART_CURTAIN_CONTROL_001",
+      "productName": "Smart Curtain Control",
+      "iotId": "iot-a1hf0pqoGhe-001",
+      "elementId": "iot-a1hf0pqoGhe-001",
+      "status": 1,
+      "nickName": "Smart Curtain Control",
+      "categoryKey": "Curtain",
+      "roomName": "Bedroom",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "CurtainOperation",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000031
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990027
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1q0MMwUAy0",
+      "deviceName": "CAMERA_001",
+      "productName": "Camera",
+      "iotId": "iot-a1q0MMwUAy0-001",
+      "elementId": "iot-a1q0MMwUAy0-001",
+      "status": 1,
+      "nickName": "Camera",
+      "categoryKey": "Camera",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "MotionTrackStatus",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000032
+        },
+        {
+          "identifier": "StatusLightSwitch",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000032
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990028
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1yJAmJczNk",
+      "deviceName": "LIFTING_SOCKET_001",
+      "productName": "Lifting Socket",
+      "iotId": "iot-a1yJAmJczNk-001",
+      "elementId": "iot-a1yJAmJczNk-001",
+      "status": 1,
+      "nickName": "Lifting Socket",
+      "categoryKey": "Socket",
+      "roomName": "Study",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "SocketPowerState",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000033
+        },
+        {
+          "identifier": "AutoSocketSta",
+          "value": "4",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000033
+        },
+        {
+          "identifier": "IPAddress",
+          "value": "192.168.1.50",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000033
+        },
+        {
+          "identifier": "Version",
+          "value": "1.1.0",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000033
+        },
+        {
+          "identifier": "MacAddress",
+          "value": "AA:BB:CC:11:22:33",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271000033
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990029
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1KlmsrNIVn",
+      "deviceName": "WIFI_SOCKET_001",
+      "productName": "Wi-Fi Socket",
+      "iotId": "iot-a1KlmsrNIVn-001",
+      "elementId": "iot-a1KlmsrNIVn-001",
+      "status": 1,
+      "nickName": "Wi-Fi Socket",
+      "categoryKey": "Socket",
+      "roomName": "Study",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000034
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990030
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1PRNMs7ABY",
+      "deviceName": "DOORBELL_001",
+      "productName": "Doorbell",
+      "iotId": "iot-a1PRNMs7ABY-001",
+      "elementId": "iot-a1PRNMs7ABY-001",
+      "status": 1,
+      "nickName": "Doorbell",
+      "categoryKey": "Doorbell",
+      "roomName": "Entrance",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "AnalogValue1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000035
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990031
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1IPvAvBSNl",
+      "deviceName": "GLYSTRO_001",
+      "productName": "Wi-Fi Curtain Motor",
+      "iotId": "iot-a1IPvAvBSNl-001",
+      "elementId": "iot-a1IPvAvBSNl-001",
+      "status": 1,
+      "nickName": "Wi-Fi Curtain Motor",
+      "categoryKey": "Curtain",
+      "roomName": "Bedroom",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "CurtainPosition",
+          "value": "61",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000036
+        },
+        {
+          "identifier": "CurtainOperation",
+          "value": "2",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000036
+        },
+        {
+          "identifier": "ChangeDirection",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000036
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990032
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1fVBnQNQZd",
+      "deviceName": "RADIATOR_VALVE_001",
+      "productName": "Radiator Valve",
+      "iotId": "iot-a1fVBnQNQZd-001",
+      "elementId": "iot-a1fVBnQNQZd-001",
+      "status": 1,
+      "nickName": "Radiator Valve",
+      "categoryKey": "Climate",
+      "roomName": "Bedroom",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000037
+        },
+        {
+          "identifier": "AnalogValue1",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000037
+        },
+        {
+          "identifier": "AnalogValue2",
+          "value": "22",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000037
+        },
+        {
+          "identifier": "AnalogValue3",
+          "value": "24",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000037
+        },
+        {
+          "identifier": "AnalogValue4",
+          "value": "12",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000037
+        },
+        {
+          "identifier": "AnalogValue5",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000037
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990033
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1R8f46KuB1",
+      "deviceName": "ECTHERMOSTAT_001",
+      "productName": "EC Thermostat",
+      "iotId": "iot-a1R8f46KuB1-001",
+      "elementId": "iot-a1R8f46KuB1-001",
+      "status": 1,
+      "nickName": "EC Thermostat",
+      "categoryKey": "Climate",
+      "roomName": "Bedroom",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "ScreenMode",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000038
+        },
+        {
+          "identifier": "TargetTemperature",
+          "value": "24",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000038
+        },
+        {
+          "identifier": "CurrentTemperature",
+          "value": "23",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000038
+        },
+        {
+          "identifier": "DevConfig",
+          "value": "2",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000038
+        },
+        {
+          "identifier": "Speed",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000038
+        },
+        {
+          "identifier": "StatusReminder",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000038
+        },
+        {
+          "identifier": "TemperatureCalibrate",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000038
+        },
+        {
+          "identifier": "SwitchStatus",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000038
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990034
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1dcPD3IoCz",
+      "deviceName": "DOOR_SENSOR_001",
+      "productName": "Door Sensor",
+      "iotId": "iot-a1dcPD3IoCz-001",
+      "elementId": "iot-a1dcPD3IoCz-001",
+      "status": 1,
+      "nickName": "Door Sensor",
+      "categoryKey": "Sensor",
+      "roomName": "Entrance",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000039
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990035
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1apXR6h05T",
+      "deviceName": "REMOTE_CONTROL_BUTTON_001",
+      "productName": "Remote Control Button",
+      "iotId": "iot-a1apXR6h05T-001",
+      "elementId": "iot-a1apXR6h05T-001",
+      "status": 1,
+      "nickName": "Remote Control",
+      "categoryKey": "Remote",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "AnalogValue1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000040
+        },
+        {
+          "identifier": "AnalogValue2",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000040
+        },
+        {
+          "identifier": "AnalogValue3",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000040
+        },
+        {
+          "identifier": "AnalogValue4",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000040
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990036
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1wdgdLi1kN",
+      "deviceName": "EC_ONE_WIREFREE_001",
+      "productName": "EC One Wire Free",
+      "iotId": "iot-a1wdgdLi1kN-001",
+      "elementId": "iot-a1wdgdLi1kN-001",
+      "status": 1,
+      "nickName": "EC Wire Free 1",
+      "categoryKey": "WallSwitch",
+      "roomName": "Bedroom",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000041
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990037
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1zezmZf3xT",
+      "deviceName": "EC_DOUBLE_WIREFREE_001",
+      "productName": "EC Double Wire Free",
+      "iotId": "iot-a1zezmZf3xT-001",
+      "elementId": "iot-a1zezmZf3xT-001",
+      "status": 1,
+      "nickName": "EC Wire Free 2",
+      "categoryKey": "WallSwitch",
+      "roomName": "Bedroom",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000042
+        },
+        {
+          "identifier": "PowerSwitch_2",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000042
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990038
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a2AJLJl9IMI",
+      "deviceName": "SELF_POWERED_001",
+      "productName": "Self Powered Switch",
+      "iotId": "iot-a2AJLJl9IMI-001",
+      "elementId": "iot-a2AJLJl9IMI-001",
+      "status": 1,
+      "nickName": "Self Powered",
+      "categoryKey": "WallSwitch",
+      "roomName": "Bedroom",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "AnalogValue1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000043
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990039
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1JXLgXFcim",
+      "deviceName": "SWITCH_SPEED_001",
+      "productName": "Switch Speed",
+      "iotId": "iot-a1JXLgXFcim-001",
+      "elementId": "iot-a1JXLgXFcim-001",
+      "status": 1,
+      "nickName": "Switch Speed",
+      "categoryKey": "Fan",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "AnalogValue1",
+          "value": "2",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000044
+        },
+        {
+          "identifier": "BinaryValue1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000044
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990040
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "TTL-LVD-06",
+      "deviceName": "LOCK_LVD_06_001",
+      "productName": "Lock LVD-06",
+      "iotId": "iot-TTL-LVD-06-001",
+      "elementId": "iot-TTL-LVD-06-001",
+      "status": 1,
+      "nickName": "Lock LVD-06",
+      "categoryKey": "Lock",
+      "roomName": "Entrance",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "BatteryPercentage",
+          "value": "82",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000045
+        },
+        {
+          "identifier": "Status",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000045
+        },
+        {
+          "identifier": "Alarm",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000045
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990041
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "TTL-919",
+      "deviceName": "LOCK_919_001",
+      "productName": "Lock 919",
+      "iotId": "iot-TTL-919-001",
+      "elementId": "iot-TTL-919-001",
+      "status": 1,
+      "nickName": "Lock 919",
+      "categoryKey": "Lock",
+      "roomName": "Entrance",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "BatteryPercentage",
+          "value": "78",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000046
+        },
+        {
+          "identifier": "Status",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000046
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990042
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "TTL-S1",
+      "deviceName": "LOCK_S1_001",
+      "productName": "Lock S1",
+      "iotId": "iot-TTL-S1-001",
+      "elementId": "iot-TTL-S1-001",
+      "status": 1,
+      "nickName": "Lock S1",
+      "categoryKey": "Lock",
+      "roomName": "Entrance",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "BatteryPercentage",
+          "value": "75",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000047
+        },
+        {
+          "identifier": "Status",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000047
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990043
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "TTL-A290",
+      "deviceName": "LOCK_A290_001",
+      "productName": "Lock A290",
+      "iotId": "iot-TTL-A290-001",
+      "elementId": "iot-TTL-A290-001",
+      "status": 1,
+      "nickName": "Lock A290",
+      "categoryKey": "Lock",
+      "roomName": "Entrance",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "BatteryPercentage",
+          "value": "69",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000048
+        },
+        {
+          "identifier": "Status",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000048
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990044
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "TTL-899T",
+      "deviceName": "LOCK_899T_001",
+      "productName": "Lock 899T",
+      "iotId": "iot-TTL-899T-001",
+      "elementId": "iot-TTL-899T-001",
+      "status": 1,
+      "nickName": "Lock 899T",
+      "categoryKey": "Lock",
+      "roomName": "Entrance",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "BatteryPercentage",
+          "value": "73",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000049
+        },
+        {
+          "identifier": "Status",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000049
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990045
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1tZKOdSDZ6",
+      "deviceName": "SMART_DOWNLIGHT_001",
+      "productName": "Smart Downlight",
+      "iotId": "iot-a1tZKOdSDZ6-001",
+      "elementId": "iot-a1tZKOdSDZ6-001",
+      "status": 1,
+      "nickName": "Smart Downlight",
+      "categoryKey": "Light",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "powerstate",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000050
+        },
+        {
+          "identifier": "HSVColor",
+          "value": "{\"Hue\":210,\"Saturation\":50,\"Value\":65}",
+          "dataType": "STRUCT",
+          "latestUpdateMillis": 1711271000050
+        },
+        {
+          "identifier": "brightness",
+          "value": "70",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000050
+        },
+        {
+          "identifier": "colorTemperature",
+          "value": "45",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000050
+        },
+        {
+          "identifier": "RGBMode",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000050
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990046
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1eqRoAMvAE",
+      "deviceName": "SMART_BULB_001",
+      "productName": "Smart Bulb",
+      "iotId": "iot-a1eqRoAMvAE-001",
+      "elementId": "iot-a1eqRoAMvAE-001",
+      "status": 1,
+      "nickName": "Smart Bulb",
+      "categoryKey": "Light",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "powerstate",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000051
+        },
+        {
+          "identifier": "HSVColor",
+          "value": "{\"Hue\":30,\"Saturation\":70,\"Value\":80}",
+          "dataType": "STRUCT",
+          "latestUpdateMillis": 1711271000051
+        },
+        {
+          "identifier": "brightness",
+          "value": "80",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000051
+        },
+        {
+          "identifier": "colorTemperature",
+          "value": "50",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000051
+        },
+        {
+          "identifier": "RGBMode",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000051
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990047
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1qw374FdPw",
+      "deviceName": "WIFI_SWITCH_1_001",
+      "productName": "Wi-Fi Switch 1",
+      "iotId": "iot-a1qw374FdPw-001",
+      "elementId": "iot-a1qw374FdPw-001",
+      "status": 1,
+      "nickName": "Wi-Fi Switch 1",
+      "categoryKey": "WallSwitch",
+      "roomName": "Kitchen",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000052
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990048
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1DBHZJmarL",
+      "deviceName": "WIFI_SWITCH_2_001",
+      "productName": "Wi-Fi Switch 2",
+      "iotId": "iot-a1DBHZJmarL-001",
+      "elementId": "iot-a1DBHZJmarL-001",
+      "status": 1,
+      "nickName": "Wi-Fi Switch 2",
+      "categoryKey": "WallSwitch",
+      "roomName": "Kitchen",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000053
+        },
+        {
+          "identifier": "PowerSwitch_2",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000053
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990049
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1MjmtrCvol",
+      "deviceName": "WIFI_SWITCH_3_001",
+      "productName": "Wi-Fi Switch 3",
+      "iotId": "iot-a1MjmtrCvol-001",
+      "elementId": "iot-a1MjmtrCvol-001",
+      "status": 1,
+      "nickName": "Wi-Fi Switch 3",
+      "categoryKey": "WallSwitch",
+      "roomName": "Kitchen",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "PowerSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000054
+        },
+        {
+          "identifier": "PowerSwitch_2",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000054
+        },
+        {
+          "identifier": "PowerSwitch_3",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000054
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990050
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a184nv0z7Wz",
+      "deviceName": "SOCKET_1_13A_001",
+      "productName": "Socket 1 13A",
+      "iotId": "iot-a184nv0z7Wz-001",
+      "elementId": "iot-a184nv0z7Wz-001",
+      "status": 1,
+      "nickName": "Socket 13A",
+      "categoryKey": "Socket",
+      "roomName": "Kitchen",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "SocketSwitch_1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000055
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990051
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1x6t9A4A7i",
+      "deviceName": "SOCKET_1_15A_001",
+      "productName": "Socket 1 15A",
+      "iotId": "iot-a1x6t9A4A7i-001",
+      "elementId": "iot-a1x6t9A4A7i-001",
+      "status": 1,
+      "nickName": "Socket 15A",
+      "categoryKey": "Socket",
+      "roomName": "Kitchen",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "SocketSwitch_1",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000056
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990052
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1lpBX0VQwA",
+      "deviceName": "WIFI_VALUE_CONTROLLER_001",
+      "productName": "Wi-Fi Valve Controller",
+      "iotId": "iot-a1lpBX0VQwA-001",
+      "elementId": "iot-a1lpBX0VQwA-001",
+      "status": 1,
+      "nickName": "Wi-Fi Valve",
+      "categoryKey": "Valve",
+      "roomName": "Bathroom",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "powerstate",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000057
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990053
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1JAbEZVSUj",
+      "deviceName": "SCENE_SWITCH_001",
+      "productName": "Scene Switch",
+      "iotId": "iot-a1JAbEZVSUj-001",
+      "elementId": "iot-a1JAbEZVSUj-001",
+      "status": 1,
+      "nickName": "Scene Switch",
+      "categoryKey": "Scene",
+      "roomName": "Living Room",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "AnalogValue1",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000058
+        },
+        {
+          "identifier": "AnalogValue2",
+          "value": "2",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000058
+        },
+        {
+          "identifier": "AnalogValue3",
+          "value": "3",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000058
+        },
+        {
+          "identifier": "AnalogValue4",
+          "value": "4",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000058
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990054
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "a1AR2jJcTu1",
+      "deviceName": "EMERGENCY_SWITCH_001",
+      "productName": "Emergency Switch",
+      "iotId": "iot-a1AR2jJcTu1-001",
+      "elementId": "iot-a1AR2jJcTu1-001",
+      "status": 1,
+      "nickName": "Emergency Switch",
+      "categoryKey": "Alarm",
+      "roomName": "Entrance",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "alarm",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000059
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990055
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "YGL-VL-SHL003",
+      "deviceName": "LOCK_YGL_001",
+      "productName": "YGL Lock",
+      "iotId": "iot-YGL-VL-SHL003-001",
+      "elementId": "iot-YGL-VL-SHL003-001",
+      "status": 1,
+      "nickName": "YGL Lock",
+      "categoryKey": "Lock",
+      "roomName": "Entrance",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "BatteryPercentage",
+          "value": "68",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000060
+        },
+        {
+          "identifier": "Status",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000060
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990056
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "LL-LVD-O6",
+      "deviceName": "LOCK_LIVOLO_LVD_06_001",
+      "productName": "Livolo Lock LVD-06",
+      "iotId": "iot-LL-LVD-O6-001",
+      "elementId": "iot-LL-LVD-O6-001",
+      "status": 1,
+      "nickName": "Livolo Lock",
+      "categoryKey": "Lock",
+      "roomName": "Entrance",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "BatteryPercentage",
+          "value": "71",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000061
+        },
+        {
+          "identifier": "Status",
+          "value": "1",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000061
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990057
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    },
+    {
+      "nodeType": "DEVICE",
+      "thingType": "DEVICE",
+      "productKey": "SJLockVVVVV",
+      "deviceName": "SJLOCK_001",
+      "productName": "SJ Lock",
+      "iotId": "iot-SJLockVVVVV-001",
+      "elementId": "iot-SJLockVVVVV-001",
+      "status": 1,
+      "nickName": "SJ Lock",
+      "categoryKey": "Lock",
+      "roomName": "Entrance",
+      "homeId": "mock-home-id",
+      "propertyList": [
+        {
+          "identifier": "BatteryPercentage",
+          "value": "77",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000062
+        },
+        {
+          "identifier": "Status",
+          "value": "0",
+          "dataType": "INT",
+          "latestUpdateMillis": 1711271000062
+        },
+        {
+          "identifier": "Gateway",
+          "value": "iot-a25c34Wbg4I-001",
+          "dataType": "TEXT",
+          "latestUpdateMillis": 1711271990058
+        }
+      ],
+      "pIotId": "iot-a25c34Wbg4I-001"
+    }
+  ]
+}

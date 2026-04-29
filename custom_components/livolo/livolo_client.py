@@ -2,12 +2,14 @@
 from __future__ import annotations
 
 import base64
+import copy
 import hashlib
 import hmac
 import json
 import logging
 import time
 import uuid
+from pathlib import Path
 from typing import Any
 
 import aiohttp
@@ -23,6 +25,8 @@ from .const import (
 from .property_identifiers import ALL_PROPERTY_IDENTIFIERS
 
 _LOGGER = logging.getLogger(__name__)
+
+MOCK_DATA_DIR = Path(__file__).resolve().parent / "mocks"
 
 LIVOLO_HEADERS = {
     "language": "en",
@@ -42,6 +46,7 @@ class LivoloClient:
         country_code: str = "DE",
         app_key: str | None = None,
         app_secret: str | None = None,
+        mock_mode: bool = False,
     ):
         """Initialize the client."""
         self._session = session
@@ -50,7 +55,50 @@ class LivoloClient:
         self._country_code = country_code
         self._app_key = app_key or DEFAULT_APP_KEY
         self._app_secret = app_secret or DEFAULT_APP_SECRET
+        self._mock_mode = mock_mode
+        self._mock_devices: dict[str, dict[str, Any]] = {}
         self._session_data: dict[str, Any] | None = None
+
+    def is_mock_mode(self) -> bool:
+        """True when using bundled JSON mocks (no cloud/MQTT)."""
+        return self._mock_mode
+
+    def _rebuild_mock_device_cache(self, items: list[dict[str, Any]]) -> None:
+        self._mock_devices = {}
+        for d in items:
+            did = d.get("iotId") or d.get("elementId")
+            if did:
+                self._mock_devices[str(did)] = copy.deepcopy(d)
+
+    async def _mock_login(self) -> dict[str, Any]:
+        path = MOCK_DATA_DIR / "devices.json"
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        items = raw.get("items") or []
+        home_id = "mock-home-id"
+        for d in items:
+            hid = d.get("homeId")
+            if isinstance(hid, str) and hid:
+                home_id = hid
+                break
+        self._rebuild_mock_device_cache(items)
+        session_id = f"mock-{self._email}"
+        session_payload: dict[str, Any] = {
+            "sessionId": session_id,
+            "iotToken": "mock-iot-token",
+            "identityId": "mock-identity-id",
+            "refreshToken": None,
+            "apiGateway": "eu-central-1.api-iot.aliyuncs.com",
+            "regionUrl": REGION_MAP.get("eu-central-1", "https://euiot.livolo.com"),
+            "regionKey": "eu-central-1",
+            "mqttEndpoint": None,
+            "pushChannelEndpoint": None,
+            "homeId": home_id,
+            "homes": [],
+            "iotTokenExpiresAt": int(time.time() * 1000) + (IOT_TOKEN_TTL_SEC * 1000),
+            "gatewayCredentials": None,
+        }
+        self._session_data = session_payload
+        return session_payload
 
     def _log_request(self, method: str, url: str, headers: dict[str, str] | None = None, body: Any = None) -> None:
         """Log HTTP request details."""
@@ -578,6 +626,9 @@ class LivoloClient:
 
     async def login(self) -> dict[str, Any]:
         """Run full login flow."""
+        if self._mock_mode:
+            return await self._mock_login()
+
         # Generate session ID from email/password
         base_str = f"homeassistant-{self._email}-{self._country_code}-{self._password}"
         session_id = hashlib.md5(base_str.encode()).hexdigest()
@@ -667,6 +718,8 @@ class LivoloClient:
 
     async def _api_request(self, path: str, api_ver: str, params: dict[str, Any], retry_on_auth_error: bool = True) -> dict[str, Any]:
         """Make API request with automatic token refresh on auth errors."""
+        if self._mock_mode:
+            raise RuntimeError("API request not available in mock mode")
         if not self._session_data:
             raise Exception("Not logged in")
         api_host = self._session_data["apiGateway"]
@@ -729,6 +782,17 @@ class LivoloClient:
         """Get all devices."""
         if not self._session_data:
             raise Exception("Not logged in")
+
+        if self._mock_mode:
+            all_devices = [copy.deepcopy(d) for d in self._mock_devices.values()]
+            by_iot_id = await self.get_user_switch_buttons()
+            for d in all_devices:
+                d_id = d.get("iotId") or d.get("elementId")
+                if d_id and d_id in by_iot_id:
+                    d["switchDetails"] = by_iot_id[d_id]
+            _LOGGER.debug("mock get_devices: %d devices", len(all_devices))
+            return all_devices
+
         home_id = self._session_data.get("homeId")
         if not home_id:
             home_result = await self._query_home(self._session_data["apiGateway"], self._session_data["iotToken"])
@@ -763,11 +827,9 @@ class LivoloClient:
             if d_id and d_id in by_iot_id:
                 d["switchDetails"] = by_iot_id[d_id]
 
-        _LOGGER.info(f"all_devices: {all_devices}")
-
         return all_devices
 
-    async def get_user_switch_buttons(self) -> dict[str, list[dict[str, Any]]]:
+    async def get_user_switch_buttons(self) -> dict[str, dict[str, Any]]:
         """Fetch per-user switch button names from Livolo backend and normalize to mapping.
 
         Mirrors Android: GET {regionUrl}/switch/user/buttons?identityId=...
@@ -778,6 +840,16 @@ class LivoloClient:
         """
         if not self._session_data:
             raise Exception("Not logged in")
+
+        if self._mock_mode:
+            path = MOCK_DATA_DIR / "switch" / "user" / "buttons.json"
+            if not path.is_file():
+                return {}
+            data = json.loads(path.read_text(encoding="utf-8"))
+            payload = data.get("data")
+            if payload is None:
+                payload = data
+            return self._normalize_switch_buttons_payload(payload)
 
         region_url = (self._session_data.get("regionUrl") or "").rstrip("/")
         identity_id = self._session_data.get("identityId")
@@ -811,9 +883,27 @@ class LivoloClient:
             if payload is None:
                 return {}
 
-            # Normalize possible payload shapes to: iotId -> buttons[]
-            by_iot_id: dict[str, list[dict[str, Any]]] = {}
+            return self._normalize_switch_buttons_payload(payload)
 
+    @staticmethod
+    def _normalize_switch_buttons_payload(payload: Any) -> dict[str, dict[str, Any]]:
+        """Normalize to iotId -> { propertyIdentifier: button dict }."""
+        by_iot_id: dict[str, dict[str, Any]] = {}
+        if isinstance(payload, dict):
+            for iot_id, buttons in payload.items():
+                if not iot_id:
+                    continue
+                sid = str(iot_id)
+                if isinstance(buttons, list):
+                    by_iot_id[sid] = {
+                        b.get("propertyIdentifier"): b
+                        for b in buttons
+                        if isinstance(b, dict) and b.get("propertyIdentifier") is not None
+                    }
+                elif isinstance(buttons, dict):
+                    by_iot_id[sid] = buttons
+            return by_iot_id
+        if isinstance(payload, list):
             for item in payload:
                 if not isinstance(item, dict):
                     continue
@@ -821,14 +911,12 @@ class LivoloClient:
                 buttons = item.get("buttons")
                 if not iot_id or not isinstance(buttons, list):
                     continue
-                # Ensure list items are dicts (best effort)
                 by_iot_id[str(iot_id)] = {
                     b.get("propertyIdentifier"): b
                     for b in buttons
                     if isinstance(b, dict) and b.get("propertyIdentifier") is not None
                 }
-           
-            return by_iot_id
+        return by_iot_id
 
     async def get_gateway_subdevices(self, gateway_iot_id: str) -> list[dict[str, Any]]:
         """Get child devices for a gateway using /subdevices/list API.
@@ -841,7 +929,15 @@ class LivoloClient:
         """
         if not self._session_data:
             raise Exception("Not logged in")
-        
+
+        if self._mock_mode:
+            path = MOCK_DATA_DIR / "subdevices" / f"subdevice-{gateway_iot_id}.json"
+            if not path.is_file():
+                return []
+            page = json.loads(path.read_text(encoding="utf-8"))
+            items = page.get("items") or page.get("data") or []
+            return copy.deepcopy(items) if isinstance(items, list) else []
+
         all_subdevices = []
         page_no = 1
         while True:
@@ -869,6 +965,24 @@ class LivoloClient:
 
     async def set_device_properties(self, iot_id: str, items: dict[str, Any]) -> dict[str, Any]:
         """Set device properties."""
+        if self._mock_mode:
+            _LOGGER.debug("mock set_device_properties iot_id=%s items=%s", iot_id, items)
+            dev = self._mock_devices.get(iot_id)
+            if not dev:
+                return {}
+            prop_list = dev.get("propertyList") or []
+            for p in prop_list:
+                pid = p.get("identifier")
+                if pid in items:
+                    val = items[pid]
+                    if isinstance(val, dict):
+                        p["value"] = json.dumps(val)
+                    elif val is not None and not isinstance(val, str):
+                        p["value"] = str(val)
+                    else:
+                        p["value"] = val
+            return {}
+        _LOGGER.debug("api set_device_properties iot_id=%s items=%s", iot_id, items)
         return await self._api_request("/thing/properties/set", "1.0.2", {"iotId": iot_id, "items": items})
 
     async def get_device_properties(self, iot_id: str) -> dict[str, Any]:
@@ -877,6 +991,10 @@ class LivoloClient:
 
     async def refresh_token(self) -> bool:
         """Refresh IoT token."""
+        if self._mock_mode:
+            if self._session_data:
+                self._session_data["iotTokenExpiresAt"] = int(time.time() * 1000) + (IOT_TOKEN_TTL_SEC * 1000)
+            return True
         if not self._session_data:
             return False
         refresh_token = self._session_data.get("refreshToken")

@@ -1,0 +1,56 @@
+{
+  "result_code": "000",
+  "result_msg": "success",
+  "data": [
+    {
+      "iotId": "iot-ecswitch-001",
+      "buttons": [
+        {
+          "buttonName": "EC Switch Main",
+          "buttonUuid": "iot-ecswitch-001PowerSwitch_1",
+          "iotId": "iot-ecswitch-001",
+          "propertyIdentifier": "PowerSwitch_1"
+        }
+      ]
+    },
+    {
+      "iotId": "iot-a2dajwFdCKY-001",
+      "buttons": [
+        {
+          "buttonName": "Hall Single",
+          "buttonUuid": "iot-a2dajwFdCKY-001PowerSwitch_1",
+          "iotId": "iot-a2dajwFdCKY-001",
+          "propertyIdentifier": "PowerSwitch_1"
+        }
+      ]
+    },
+    {
+      "iotId": "iot-a2eVlMRRgcG-001",
+      "buttons": [
+        {
+          "buttonName": "Left Gang",
+          "buttonUuid": "iot-a2eVlMRRgcG-001PowerSwitch_1",
+          "iotId": "iot-a2eVlMRRgcG-001",
+          "propertyIdentifier": "PowerSwitch_1"
+        },
+        {
+          "buttonName": "Right Gang",
+          "buttonUuid": "iot-a2eVlMRRgcG-001PowerSwitch_2",
+          "iotId": "iot-a2eVlMRRgcG-001",
+          "propertyIdentifier": "PowerSwitch_2"
+        }
+      ]
+    },
+    {
+      "iotId": "iot-a26AA7c5o6j-001",
+      "buttons": [
+        {
+          "buttonName": "Dimmer zone",
+          "buttonUuid": "iot-a26AA7c5o6j-001on",
+          "iotId": "iot-a26AA7c5o6j-001",
+          "propertyIdentifier": "on"
+        }
+      ]
+    }
+  ]
+}
