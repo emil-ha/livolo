@@ -15,7 +15,7 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import CONF_HAS_ENTITY_NAME, DOMAIN
+from .const import CONF_HAS_ENTITY_NAME, CONF_INVERT_COVER_DIRECTION, DOMAIN
 from .coordinator import LivoloDataUpdateCoordinator
 from .device_property_utils import (
     get_property_label,
@@ -140,17 +140,25 @@ class LivoloCoverEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], CoverEnt
             return None
         return pos <= 2
 
+    def _invert_direction(self) -> bool:
+        inv = self.coordinator.entry.options.get(CONF_INVERT_COVER_DIRECTION, []) or []
+        return self._iot_id in inv
+
     async def async_open_cover(self, **kwargs: Any) -> None:
         if self._has_operation:
-            await self.coordinator.set_device_property(self._iot_id, "CurtainOperation", 1)
+            val = 0 if self._invert_direction() else 1
+            await self.coordinator.set_device_property(self._iot_id, "CurtainOperation", val)
         elif self._has_position:
-            await self.coordinator.set_device_property(self._iot_id, "CurtainPosition", 100)
+            pos = 0 if self._invert_direction() else 100
+            await self.coordinator.set_device_property(self._iot_id, "CurtainPosition", pos)
 
     async def async_close_cover(self, **kwargs: Any) -> None:
         if self._has_operation:
-            await self.coordinator.set_device_property(self._iot_id, "CurtainOperation", 0)
+            val = 1 if self._invert_direction() else 0
+            await self.coordinator.set_device_property(self._iot_id, "CurtainOperation", val)
         elif self._has_position:
-            await self.coordinator.set_device_property(self._iot_id, "CurtainPosition", 0)
+            pos = 100 if self._invert_direction() else 0
+            await self.coordinator.set_device_property(self._iot_id, "CurtainPosition", pos)
 
     async def async_stop_cover(self, **kwargs: Any) -> None:
         if self._has_operation:

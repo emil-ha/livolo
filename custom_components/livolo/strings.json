@@ -28,7 +28,8 @@
       "init": {
         "title": "Livolo Options",
         "data": {
-          "has_entity_name": "Compose entity name with device name ex: Device Name Switch Name"
+          "has_entity_name": "Compose entity name with device name ex: Device Name Switch Name",
+          "invert_cover_direction": "Invert open/close direction for selected curtains"
         }
       }
     }

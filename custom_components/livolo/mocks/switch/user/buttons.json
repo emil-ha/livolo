@@ -51,6 +51,57 @@
           "propertyIdentifier": "on"
         }
       ]
+    },
+    {
+      "iotId": "iot-a1qw374FdPw-001",
+      "buttons": [
+        {
+          "buttonName": "Birou",
+          "buttonUuid": "iot-a1qw374FdPw-001PowerSwitch_1",
+          "iotId": "iot-a1qw374FdPw-001",
+          "propertyIdentifier": "PowerSwitch_1"
+        }
+      ]
+    },
+    {
+      "iotId": "iot-a1DBHZJmarL-001",
+      "buttons": [
+        {
+          "buttonName": "Switch 1",
+          "buttonUuid": "iot-a1DBHZJmarL-001PowerSwitch_1",
+          "iotId": "iot-a1DBHZJmarL-001",
+          "propertyIdentifier": "PowerSwitch_1"
+        },
+        {
+          "buttonName": "Switch 2",
+          "buttonUuid": "iot-a1DBHZJmarL-001PowerSwitch_2",
+          "iotId": "iot-a1DBHZJmarL-001",
+          "propertyIdentifier": "PowerSwitch_2"
+        }
+      ]
+    },
+    {
+      "iotId": "iot-a1MjmtrCvol-001",
+      "buttons": [
+        {
+          "buttonName": "Switch 1",
+          "buttonUuid": "iot-a1MjmtrCvol-001PowerSwitch_1",
+          "iotId": "iot-a1MjmtrCvol-001",
+          "propertyIdentifier": "PowerSwitch_1"
+        },
+        {
+          "buttonName": "Switch 2",
+          "buttonUuid": "iot-a1MjmtrCvol-001PowerSwitch_2",
+          "iotId": "iot-a1MjmtrCvol-001",
+          "propertyIdentifier": "PowerSwitch_2"
+        },
+        {
+          "buttonName": "Switch 3",
+          "buttonUuid": "iot-a1MjmtrCvol-001PowerSwitch_3",
+          "iotId": "iot-a1MjmtrCvol-001",
+          "propertyIdentifier": "PowerSwitch_3"
+        }
+      ]
     }
   ]
 }

@@ -7,8 +7,10 @@ from typing import Any
 SMART_LIGHT_PRODUCT_KEYS = frozenset({"a1pPiEXahAk", "a1eqRoAMvAE", "a1tZKOdSDZ6"})
 
 # categoryKey: wall-style devices use PowerSwitch* as lights; Socket uses SocketSwitch* (and Power* on some socket SKUs) as switches.
-WALL_SWITCH_LIGHT_CATEGORIES = frozenset({"WallSwitch", "Dimmer"})
-SOCKET_CATEGORY = "Socket"
+# Note: some firmwares report categoryKey in lowercase (e.g. "switch" for WiFi wall switches).
+# Normalize categoryKey comparisons by lowercasing.
+WALL_SWITCH_LIGHT_CATEGORIES = frozenset({"wallswitch", "dimmer", "switch"})
+SOCKET_CATEGORY = "socket"
 
 # productKey -> list of control identifiers (mirrors Android ProductTool)
 _PRODUCT_CONTROL_PROPERTIES: dict[str, list[str]] = {
@@ -183,7 +185,6 @@ def is_numeric_control_property(identifier: str | None) -> bool:
         "DevConfig",
         "StatusReminder",
         "TemperatureCalibrate",
-        "ChangeDirection",
         "ModeSettings",
         "SwitchStatus",
         "VoiceMode",
@@ -238,6 +239,7 @@ def is_binary_control_property(identifier: str | None) -> bool:
         "DeviceSwitch",
         "SocketPowerState",
         "AutoSocketSta",
+        "ChangeDirection",
         "alarm",
         "Alarm",
     }
@@ -329,6 +331,7 @@ def get_property_label(identifier: str | None, product_key: str | None = None) -
         "brightness": "Brightness",
         "CurtainPosition": "Curtain position",
         "CurtainOperation": "Curtain operation",
+        "ChangeDirection": "Invert direction",
         "TargetTemperature": "Set temperature",
         "CurrentTemperature": "Current temperature (C)",
         "CurrentHumidity": "Current humidity",
@@ -430,7 +433,7 @@ def should_create_smart_light(device: dict[str, Any]) -> bool:
 
 def iter_power_switch_light_identifiers(device: dict[str, Any]) -> list[str]:
     """PowerSwitch / PowerSwitch_* as on/off lights on wall-style categories only."""
-    cat = device.get("categoryKey") or ""
+    cat = (device.get("categoryKey") or "").lower()
     if cat not in WALL_SWITCH_LIGHT_CATEGORIES:
         return []
 
@@ -462,7 +465,7 @@ def iter_binary_switch_identifiers(device: dict[str, Any]) -> list[str]:
     pk = device.get("productKey") or ""
     pl = device.get("propertyList") or []
     ids_on = _identifiers_on_device(pl)
-    cat = device.get("categoryKey") or ""
+    cat = (device.get("categoryKey") or "").lower()
     use_filter = use_product_schema_filter(pk, pl)
     allowed = get_product_control_properties(pk, pl)
     if use_filter and allowed is not None:

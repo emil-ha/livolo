@@ -5,6 +5,7 @@ DOMAIN = "livolo"
 
 # Options keys
 CONF_HAS_ENTITY_NAME = "has_entity_name"
+CONF_INVERT_COVER_DIRECTION = "invert_cover_direction"
 
 # Config entry data
 CONF_MOCK_MODE = "mock_mode"

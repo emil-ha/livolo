@@ -10,9 +10,18 @@ from homeassistant import config_entries
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers import config_validation as cv
 
-from .const import APP_KEY, APP_SECRET, CONF_HAS_ENTITY_NAME, CONF_MOCK_MODE, DOMAIN
+from .const import (
+    APP_KEY,
+    APP_SECRET,
+    CONF_HAS_ENTITY_NAME,
+    CONF_INVERT_COVER_DIRECTION,
+    CONF_MOCK_MODE,
+    DOMAIN,
+)
 from .livolo_client import LivoloClient
+from .device_property_utils import has_curtain_cover
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -97,12 +106,39 @@ class LivoloOptionsFlowHandler(config_entries.OptionsFlow):
             return self.async_create_entry(title="", data=user_input)
 
         current = dict(self._config_entry.options)
-        schema = vol.Schema(
-            {
+        invert_current: list[str] = list(current.get(CONF_INVERT_COVER_DIRECTION, []) or [])
+
+        # Build a user-friendly map of curtain device ids -> device names.
+        cover_devices: dict[str, str] = {}
+        try:
+            domain_data = self.hass.data.get(DOMAIN) or {}
+            coordinators = (domain_data.get("coordinators") or {}) if isinstance(domain_data, dict) else {}
+            coordinator = coordinators.get(self._config_entry.entry_id)
+            devices = (coordinator.data or {}).get("devices", []) if coordinator else []
+            for d in devices:
+                if not has_curtain_cover(d):
+                    continue
+                iot_id = d.get("iotId") or d.get("elementId")
+                if not iot_id:
+                    continue
+                name = d.get("nickName") or d.get("name") or iot_id
+                cover_devices[iot_id] = str(name)
+        except Exception:  # noqa: BLE001 - options UI should never crash
+            _LOGGER.exception("Failed to build curtain device list for options flow")
+
+        schema_dict: dict[Any, Any] = {
+            vol.Optional(
+                CONF_HAS_ENTITY_NAME,
+                default=current.get(CONF_HAS_ENTITY_NAME, False),
+            ): bool,
+        }
+        if cover_devices:
+            schema_dict[
                 vol.Optional(
-                    CONF_HAS_ENTITY_NAME,
-                    default=current.get(CONF_HAS_ENTITY_NAME, False),
-                ): bool
-            }
-        )
+                    CONF_INVERT_COVER_DIRECTION,
+                    default=invert_current,
+                )
+            ] = cv.multi_select(cover_devices)
+
+        schema = vol.Schema(schema_dict)
         return self.async_show_form(step_id="init", data_schema=schema)

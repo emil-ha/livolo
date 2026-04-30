@@ -31,6 +31,40 @@ EVENT_GENERATE_DASHBOARD_RESULT = f"{DOMAIN}_generate_dashboard_result"
 SERVICE_GET_DEVICES = "get_devices"
 EVENT_GET_DEVICES_RESULT = f"{DOMAIN}_get_devices_result"
 
+async def _disable_legacy_changedirection_number(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Disable the legacy number entity for ChangeDirection (replaced by a switch).
+
+    Older versions exposed ChangeDirection as a NumberEntity with unique_id:
+      {iotId}_num_ChangeDirection
+    New versions expose it as a SwitchEntity with unique_id:
+      {iotId}_ChangeDirection
+    """
+    try:
+        from homeassistant.helpers import entity_registry as er
+
+        ent_reg = er.async_get(hass)
+        updates = 0
+        for e in list(ent_reg.entities.values()):
+            if e.config_entry_id != entry.entry_id:
+                continue
+            if e.platform != DOMAIN:
+                continue
+            if not e.unique_id or not e.unique_id.endswith("_num_ChangeDirection"):
+                continue
+            if e.domain != "number":
+                continue
+            if e.disabled_by is not None:
+                continue
+            ent_reg.async_update_entity(
+                e.entity_id,
+                disabled_by=er.RegistryEntryDisabler.INTEGRATION,
+            )
+            updates += 1
+        if updates:
+            _LOGGER.info("Disabled %d legacy ChangeDirection number entity(ies)", updates)
+    except Exception:  # noqa: BLE001 - registry update must not break setup
+        _LOGGER.exception("Failed disabling legacy ChangeDirection number entities")
+
 async def _update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Handle options updates by reloading the entry."""
     await hass.config_entries.async_reload(entry.entry_id)
@@ -48,6 +82,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry[LivoloDataUp
     entry.runtime_data = coordinator
 
     entry.async_on_unload(entry.add_update_listener(_update_listener))
+    await _disable_legacy_changedirection_number(hass, entry)
 
     # Keep a registry of coordinators for domain services (so we can target a specific entry).
     domain_data = hass.data.setdefault(DOMAIN, {})
