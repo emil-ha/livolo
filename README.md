@@ -4,10 +4,13 @@ A Home Assistant custom component for controlling Livolo smart switches and devi
 
 ## Features
 
-- Control Livolo switches directly from Home Assistant
-- Real-time updates via MQTT
-- Automatic device discovery
-- Support for multiple switch channels (PowerSwitch_1, PowerSwitch_2, etc.)
+- Config flow setup (no YAML configuration)
+- Automatic device/entity discovery from your Livolo cloud account
+- Supports multiple entity types: **lights**, **switches**, **covers**, **locks**, **sensors**, **numbers**, and **climate**
+- Multi-channel devices exposed as separate entities (e.g. `PowerSwitch_1`, `PowerSwitch_2`, ...)
+- Real-time state updates via Livolo MQTT (when available for your gateway/account)
+- Built-in services for troubleshooting and automation (device dump + raw MQTT event stream)
+- Optional Lovelace dashboard YAML generator to group entities by device
 
 ## Installation
 
@@ -41,9 +44,9 @@ During setup, you'll need to provide:
 
 ## Usage
 
-After installation, Livolo switches will appear as separate switch entities in Home Assistant. Each switch channel (PowerSwitch_1, PowerSwitch_2, etc.) will be a separate entity.
+After installation, your Livolo devices will appear in Home Assistant as entities (e.g. lights, switches, covers, locks, sensors, numbers, and climate). For multi-channel devices, each channel (e.g. `PowerSwitch_1`, `PowerSwitch_2`, etc.) is exposed as a separate entity.
 
-Entities are named: `{Device Name} {Property Name Without "PowerSwitch "}` (e.g., "Kitchen Switch 1")
+Entities are named using the Livolo device name plus the feature/channel name (for example: "Kitchen Switch 1").
 
 ### Dashboard YAML Template Generator
 
