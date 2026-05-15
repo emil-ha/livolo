@@ -247,22 +247,27 @@ class LivoloDimmerLightEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], Li
     async def async_turn_on(self, **kwargs: Any) -> None:
         if self._brightness_property_id and ATTR_BRIGHTNESS in kwargs:
             pct = max(0, min(100, round(kwargs[ATTR_BRIGHTNESS] * 100 / 255)))
-            await self.coordinator.set_device_property(
-                self._iot_id, self._brightness_property_id, int(pct)
-            )
             if self._power_property_id == "on":
-                await self.coordinator.set_device_property(
-                    self._iot_id, "on", 1 if pct > 0 else 0
+                await self.coordinator.set_device_properties_bulk(
+                    self._iot_id,
+                    {
+                        self._brightness_property_id: int(pct),
+                        "on": 1 if pct > 0 else 0,
+                    },
                 )
                 return
+            await self.coordinator.set_device_properties_bulk(
+                self._iot_id,
+                {
+                    self._brightness_property_id: int(pct),
+                    self._power_property_id: 1,
+                },
+            )
+            return
         await self.coordinator.set_device_property(self._iot_id, self._power_property_id, 1)
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         await self.coordinator.set_device_property(self._iot_id, self._power_property_id, 0)
-        if self._brightness_property_id and self._power_property_id == "on":
-            await self.coordinator.set_device_property(
-                self._iot_id, self._brightness_property_id, 0
-            )
 
 
 class LivoloSmartLightEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], LightEntity):

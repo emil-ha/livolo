@@ -225,3 +225,11 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         _LOGGER.debug("set_device_property iot_id=%s property_id=%s value=%s", iot_id, property_id, value)
         await self.client.set_device_properties(iot_id, {property_id: value})
         await self.async_request_refresh()
+
+    async def set_device_properties_bulk(
+        self, iot_id: str, items: dict[str, int | float | str | dict[str, Any]]
+    ) -> None:
+        """Set multiple device properties in one API call."""
+        _LOGGER.debug("set_device_properties_bulk iot_id=%s items=%s", iot_id, items)
+        await self.client.set_device_properties(iot_id, items)
+        await self.async_request_refresh()

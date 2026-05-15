@@ -10,7 +10,8 @@ SMART_LIGHT_PRODUCT_KEYS = frozenset({"a1pPiEXahAk", "a1eqRoAMvAE", "a1tZKOdSDZ6
 # Note: some firmwares report categoryKey in lowercase (e.g. "switch" for WiFi wall switches).
 # Normalize categoryKey comparisons by lowercasing.
 WALL_SWITCH_LIGHT_CATEGORIES = frozenset({"wallswitch", "dimmer", "switch"})
-SOCKET_CATEGORY = "socket"
+# Some firmwares use "Outlet" as the category for socket-style devices.
+SOCKET_CATEGORIES = frozenset({"socket", "outlet"})
 
 # productKey -> list of control identifiers (mirrors Android ProductTool)
 _PRODUCT_CONTROL_PROPERTIES: dict[str, list[str]] = {
@@ -479,12 +480,12 @@ def iter_binary_switch_identifiers(device: dict[str, Any]) -> list[str]:
     for ident in candidates:
         if ident not in ids_on:
             continue
-        if ident.startswith("SocketSwitch_") and cat != SOCKET_CATEGORY:
+        if ident.startswith("SocketSwitch_") and cat not in SOCKET_CATEGORIES:
             continue
         if is_wall_power_switch_property(ident):
             if cat in WALL_SWITCH_LIGHT_CATEGORIES:
                 continue
-            if cat != SOCKET_CATEGORY:
+            if cat not in SOCKET_CATEGORIES:
                 continue
         if not is_binary_control_property(ident) and not is_binary_value_toggle(ident):
             continue
