@@ -24,6 +24,10 @@ from .device_property_utils import (
     is_trv_climate,
 )
 from .entity_helpers import find_device, get_property_value, normalize_on
+from .temperature_codec import (
+    decode_ec_thermostat_temperature,
+    encode_ec_thermostat_target_temperature,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -199,18 +203,12 @@ class LivoloEcThermostatClimateEntity(CoordinatorEntity[LivoloDataUpdateCoordina
     @property
     def current_temperature(self) -> float | None:
         raw = get_property_value(self._device(), "CurrentTemperature")
-        try:
-            return float(raw)
-        except (TypeError, ValueError):
-            return None
+        return decode_ec_thermostat_temperature("CurrentTemperature", raw)
 
     @property
     def target_temperature(self) -> float | None:
         raw = get_property_value(self._device(), "TargetTemperature")
-        try:
-            return float(raw)
-        except (TypeError, ValueError):
-            return None
+        return decode_ec_thermostat_temperature("TargetTemperature", raw)
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         if hvac_mode == HVACMode.OFF:
@@ -224,5 +222,7 @@ class LivoloEcThermostatClimateEntity(CoordinatorEntity[LivoloDataUpdateCoordina
         if temp is None:
             return
         await self.coordinator.set_device_property(
-            self._iot_id, "TargetTemperature", int(round(float(temp)))
+            self._iot_id,
+            "TargetTemperature",
+            encode_ec_thermostat_target_temperature(float(temp)),
         )
