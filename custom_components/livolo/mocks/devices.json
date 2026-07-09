@@ -1420,7 +1420,7 @@
       "elementId": "iot-a1R8f46KuB1-001",
       "status": 1,
       "nickName": "EC Thermostat",
-      "categoryKey": "Climate",
+      "categoryKey": "heater",
       "roomName": "Bedroom",
       "homeId": "mock-home-id",
       "propertyList": [
@@ -1432,13 +1432,13 @@
         },
         {
           "identifier": "TargetTemperature",
-          "value": "24",
+          "value": "770",
           "dataType": "INT",
           "latestUpdateMillis": 1711271000038
         },
         {
           "identifier": "CurrentTemperature",
-          "value": "23",
+          "value": "259",
           "dataType": "INT",
           "latestUpdateMillis": 1711271000038
         },
