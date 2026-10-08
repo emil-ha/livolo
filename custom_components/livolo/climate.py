@@ -147,7 +147,6 @@ class LivoloTrvClimateEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], Cli
             await self.coordinator.set_device_property(self._iot_id, "PowerSwitch_1", 0)
         else:
             await self.coordinator.set_device_property(self._iot_id, "PowerSwitch_1", 1)
-        await self.coordinator.async_request_refresh()
 
     async def async_set_temperature(self, **kwargs: Any) -> None:
         temp = kwargs.get("temperature")
@@ -215,7 +214,6 @@ class LivoloEcThermostatClimateEntity(CoordinatorEntity[LivoloDataUpdateCoordina
             await self.coordinator.set_device_property(self._iot_id, "ScreenMode", 0)
         else:
             await self.coordinator.set_device_property(self._iot_id, "ScreenMode", 1)
-        await self.coordinator.async_request_refresh()
 
     async def async_set_temperature(self, **kwargs: Any) -> None:
         temp = kwargs.get("temperature")
