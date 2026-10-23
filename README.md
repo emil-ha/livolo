@@ -39,8 +39,16 @@ During setup, you'll need to provide:
 - **Email**: Your Livolo account email
 - **Password**: Your Livolo account password
 - **Country Code**: Your country code (e.g., DE, US, CN)
-- **APP Key**: Livolo APP Secret. Can be obtained from [SDKInitHelper.java](https://github.com/PengJiang520/livoloapp) or by [decompiling](https://www.javadecompilers.com/apk) the [android APK](https://apkpure.com/livolo-home/com.livolo.livoloapp) and search for **appKey**
-- **APP Secret**: Livolo APP Secret. Can be obtained from [SDKInitHelper.java](https://github.com/PengJiang520/livoloapp) or by [decompiling](https://www.javadecompilers.com/apk) the [android APK](https://apkpure.com/livolo-home/com.livolo.livoloapp) and search for **appSecret**
+- **APP Key**: Livolo APP Secret. 
+- **APP Secret**: Livolo APP Secret.
+
+#### HOW TO OBTAIN **APP Key** and **APP Secret**
+1. Download the following XAPK: https://d.apkpure.net/b/XAPK/com.livolo.livoloapp?versionCode=224&nc=arm64-v8a&sv=26
+2. Decompile with https://www.decompiler.com/ selecting XAPK
+3. Search for appKeyConfig.appSecret. File location:
+    <img width="816" height="97" alt="Image" src="https://github.com/user-attachments/assets/ed652afa-0b8a-45ab-a799-381553152b79" />
+6. Search for APP_KEY . File Location:
+    <img width="816" height="97" alt="Image" src="https://github.com/user-attachments/assets/64f6cff9-107a-4a4a-874c-8ec7942e04a0" />
 
 ## Usage
 
