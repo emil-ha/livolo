@@ -31,15 +31,42 @@ class LivoloMqttClient:
         self._client: mqtt.Client | None = None
         self._connected = False
         self._devices_cache: dict[str, dict[str, Any]] = {}
+        self._bound_token: str | None = None
+
+    def is_running(self) -> bool:
+        """Return True if the paho network loop was started."""
+        return self._client is not None
 
     def update_session_data(self, session_data: dict[str, Any]) -> None:
-        """Update session data (e.g., after token refresh).
+        """Update session data (e.g., after token refresh or re-login).
 
-        We intentionally do NOT force a rebind here. The livolo-rest-api binds on every
-        MQTT (re)connect, so the important part is that the cached token is current
-        when (re)connecting happens.
+        The account binding is tied to the iotToken. When the token changes while the
+        connection stays up, the broker silently stops pushing property updates for the
+        old binding, so rebind with the new token right away.
         """
         self._session_data = session_data
+        token = session_data.get("iotToken")
+        if self._client and self._connected and token and token != self._bound_token:
+            _LOGGER.debug("iotToken changed, rebinding MQTT account")
+            self._publish_bind(self._client)
+
+    def _publish_bind(self, client: mqtt.Client) -> None:
+        """Bind the account to this MQTT session so the broker pushes device updates."""
+        token = self._session_data.get("iotToken")
+        if not token:
+            return
+        gw = self._session_data.get("gatewayCredentials", {})
+        product_key = gw.get("productKey")
+        device_name = gw.get("deviceName")
+        bind_topic = f"/sys/{product_key}/{device_name}/app/up/account/bind"
+        bind_payload = json.dumps({
+            "request": {"clientId": f"{device_name}&{product_key}"},
+            "system": {"time": str(int(time.time() * 1000)), "version": "1.0"},
+            "id": "1",
+            "params": {"iotToken": token},
+        })
+        client.publish(bind_topic, bind_payload, qos=0)
+        self._bound_token = token
 
     def _generate_mqtt_password(self, product_key: str, device_name: str, device_secret: str) -> str:
         """Generate MQTT password."""
@@ -100,7 +127,13 @@ class LivoloMqttClient:
 
     def _connect_sync(self, host: str, port: int, mqtt_username: str, mqtt_password: str, mqtt_client_id: str, product_key: str, device_name: str) -> None:
         """Synchronous MQTT connection."""
-        self._client = mqtt.Client(client_id=mqtt_client_id, protocol=mqtt.MQTTv311)
+        if hasattr(mqtt, "CallbackAPIVersion"):
+            # paho-mqtt >= 2.0
+            self._client = mqtt.Client(
+                mqtt.CallbackAPIVersion.VERSION1, client_id=mqtt_client_id, protocol=mqtt.MQTTv311
+            )
+        else:
+            self._client = mqtt.Client(client_id=mqtt_client_id, protocol=mqtt.MQTTv311)
         self._client.username_pw_set(mqtt_username, mqtt_password)
         # Auto-reconnect behavior (similar to mqtt.js reconnectPeriod)
         self._client.reconnect_delay_set(min_delay=1, max_delay=30)
@@ -120,15 +153,7 @@ class LivoloMqttClient:
                 client.subscribe(app_down_topic, qos=1)
 
                 # Bind account
-                if self._session_data.get("iotToken"):
-                    bind_topic = f"/sys/{product_key}/{device_name}/app/up/account/bind"
-                    bind_payload = json.dumps({
-                        "request": {"clientId": mqtt_username},
-                        "system": {"time": str(int(time.time() * 1000)), "version": "1.0"},
-                        "id": "1",
-                        "params": {"iotToken": self._session_data["iotToken"]},
-                    })
-                    client.publish(bind_topic, bind_payload, qos=0)
+                self._publish_bind(client)
             else:
                 _LOGGER.error("MQTT connection failed: %s", rc)
 
@@ -153,7 +178,11 @@ class LivoloMqttClient:
                     self._hass.loop.call_soon_threadsafe(_emit)
 
                 if "/app/down/account/bind_reply" in topic:
-                    _LOGGER.debug("Account binding successful")
+                    if str(data.get("code", 200)) != "200":
+                        _LOGGER.warning("MQTT account binding failed: %s", data)
+                        self._bound_token = None
+                    else:
+                        _LOGGER.debug("Account binding successful")
                 elif "/app/down/thing/properties" in topic:
                     # Handle property updates
                     # MQTT message can have params.items or items directly
@@ -173,16 +202,20 @@ class LivoloMqttClient:
                                 continue
                             
                             # Extract value - can be object with 'value' key or direct value
+                            prop_time = None
                             if isinstance(prop_data, dict):
                                 prop_value = prop_data.get("value", prop_data)
+                                prop_time = prop_data.get("time")
                             else:
                                 prop_value = prop_data
-                            
-                            property_list.append({
+
+                            prop_entry: dict[str, Any] = {
                                 "identifier": prop_id,
                                 "value": prop_value,
-                                "dataType": "BOOL",
-                            })
+                            }
+                            if isinstance(prop_time, (int, float)) and prop_time > 0:
+                                prop_entry["latestUpdateMillis"] = int(prop_time)
+                            property_list.append(prop_entry)
                         
                         if property_list:
                             # Create device update structure
@@ -199,6 +232,7 @@ class LivoloMqttClient:
 
         def on_disconnect(client: mqtt.Client, userdata: Any, rc: int) -> None:
             self._connected = False
+            self._bound_token = None
             if rc != 0:
                 # Unexpected disconnect. With connect_async + loop_start paho will reconnect automatically.
                 _LOGGER.warning("MQTT disconnected unexpectedly (rc=%s). Will attempt to reconnect.", rc)

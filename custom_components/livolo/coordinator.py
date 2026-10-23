@@ -7,7 +7,8 @@ from datetime import timedelta
 from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
+from homeassistant.helpers.event import async_call_later
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -18,6 +19,9 @@ from .mqtt_client import LivoloMqttClient
 _LOGGER = logging.getLogger(__name__)
 
 SCAN_INTERVAL = timedelta(seconds=60)
+# Delay before re-reading state from the cloud after a command. Reading immediately
+# returns the old (not yet reported) value and the entity flips back.
+POST_COMMAND_REFRESH_DELAY = 5
 
 
 class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
@@ -37,6 +41,7 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             mock_mode=bool(entry.data.get(CONF_MOCK_MODE)),
         )
         self.mqtt_client: LivoloMqttClient | None = None
+        self._post_command_refresh_unsub: CALLBACK_TYPE | None = None
         super().__init__(
             hass,
             _LOGGER,
@@ -100,8 +105,12 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 except Exception as e:
                     _LOGGER.warning("Failed to get subdevices for gateway %s: %s", gateway_id, e)
 
-            # Start MQTT client if we have gateway credentials
+            # Start MQTT client if we have gateway credentials (or restart it if it failed to start)
             session_data = self.client.get_session_data()
+            if self.mqtt_client and not self.mqtt_client.is_running():
+                _LOGGER.warning("MQTT client is not running, restarting")
+                await self.mqtt_client.disconnect()
+                self.mqtt_client = None
             if session_data and session_data.get("gatewayCredentials") and not self.mqtt_client:
                 # Initialize devices cache in MQTT client before connecting
                 devices_cache = {d.get("iotId") or d.get("elementId"): d.copy() for d in devices}
@@ -114,7 +123,7 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 await self.mqtt_client.connect()
 
             return {
-                "devices": devices,
+                "devices": self._merge_newer_properties(devices),
                 "gateway_to_devices": gateway_to_devices,  # Add mapping to coordinator data
             }
         except Exception as err:
@@ -125,50 +134,86 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         # Schedule the update on the Home Assistant event loop
         self.hass.loop.call_soon_threadsafe(self._async_handle_mqtt_update, data)
     
+    def _merge_newer_properties(self, devices: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Keep property values that are newer than what the REST poll returned.
+
+        An MQTT push can arrive while a poll is in flight; without this the poll
+        result would overwrite the fresh value with the stale cloud snapshot.
+        """
+        if not self.data:
+            return devices
+        old_by_id = {
+            d.get("iotId") or d.get("elementId"): d for d in self.data.get("devices", [])
+        }
+        for device in devices:
+            old = old_by_id.get(device.get("iotId") or device.get("elementId"))
+            if not old:
+                continue
+            old_props = {p.get("identifier"): p for p in old.get("propertyList") or []}
+            for prop in device.get("propertyList") or []:
+                old_prop = old_props.get(prop.get("identifier"))
+                if not old_prop:
+                    continue
+                old_ts = old_prop.get("latestUpdateMillis") or 0
+                new_ts = prop.get("latestUpdateMillis") or 0
+                if old_ts > new_ts:
+                    prop["value"] = old_prop.get("value")
+                    prop["latestUpdateMillis"] = old_ts
+        return devices
+
+    def _apply_property_values(
+        self, iot_id: str, values: dict[str, Any], timestamp_ms: int | None
+    ) -> bool:
+        """Write property values into coordinator data. Returns True if the device is known."""
+        if not self.data:
+            return False
+        devices = list(self.data.get("devices", []))
+        for idx, device in enumerate(devices):
+            if (device.get("iotId") or device.get("elementId")) != iot_id:
+                continue
+            prop_list = [dict(p) for p in device.get("propertyList") or []]
+            prop_map = {p.get("identifier"): p for p in prop_list}
+            for prop_id, value in values.items():
+                prop = prop_map.get(prop_id)
+                if prop is None:
+                    prop = {"identifier": prop_id}
+                    prop_list.append(prop)
+                prop["value"] = value
+                if timestamp_ms is not None:
+                    prop["latestUpdateMillis"] = timestamp_ms
+            devices[idx] = {**device, "propertyList": prop_list}
+            # Assign directly instead of async_set_updated_data(): that call reschedules
+            # the poll timer, so frequent pushes would postpone polling (and token refresh) forever.
+            self.data = {**self.data, "devices": devices}
+            self.async_update_listeners()
+            return True
+        return False
+
+    def _handle_mqtt_update(self, data: dict[str, Any]) -> None:
+        """Handle MQTT update (called from MQTT thread)."""
+        # Schedule the update on the Home Assistant event loop
+        self.hass.loop.call_soon_threadsafe(self._async_handle_mqtt_update, data)
+
+    @callback
     def _async_handle_mqtt_update(self, data: dict[str, Any]) -> None:
         """Handle MQTT update on the event loop."""
-        # Merge MQTT updates with current data
-        current_devices = self.data.get("devices", [])
-        mqtt_devices = data.get("devices", [])
-        
-        if not current_devices:
-            _LOGGER.warning("No current devices to update, skipping MQTT update")
+        if not self.data or not self.data.get("devices"):
+            _LOGGER.debug("No current devices to update, skipping MQTT update")
             return
-        
-        # Update devices with MQTT data
-        device_map = {d.get("iotId") or d.get("elementId"): d.copy() for d in current_devices}
-        
-        for mqtt_device in mqtt_devices:
+
+        for mqtt_device in data.get("devices", []):
             iot_id = mqtt_device.get("iotId") or mqtt_device.get("elementId")
             if not iot_id:
                 continue
-                
-            if iot_id in device_map:
-                # Update propertyList
-                mqtt_props = {p.get("identifier"): p for p in mqtt_device.get("propertyList", [])}
-                prop_list = device_map[iot_id].get("propertyList", [])
-                
-                # Update existing properties or add new ones
-                prop_map = {p.get("identifier"): p for p in prop_list}
-                for prop_id, mqtt_prop in mqtt_props.items():
-                    if prop_id in prop_map:
-                        # Update existing property value
-                        prop_map[prop_id]["value"] = mqtt_prop.get("value")
-                    else:
-                        # Add new property
-                        prop_list.append(mqtt_prop)
-                
-                device_map[iot_id]["propertyList"] = prop_list
+            values = {}
+            timestamp_ms = 0
+            for prop in mqtt_device.get("propertyList", []):
+                values[prop.get("identifier")] = prop.get("value")
+                timestamp_ms = max(timestamp_ms, prop.get("latestUpdateMillis") or 0)
+            if self._apply_property_values(iot_id, values, timestamp_ms or int(time.time() * 1000)):
                 _LOGGER.debug("Updated device %s properties from MQTT", iot_id)
             else:
                 _LOGGER.debug("MQTT update for unknown device %s, ignoring", iot_id)
-        
-        # Update coordinator data, preserving gateway mapping
-        self.async_set_updated_data({
-            "devices": list(device_map.values()),
-            "gateway_to_devices": self.data.get("gateway_to_devices", {}),
-        })
-        _LOGGER.debug("Coordinator data updated from MQTT")
 
     async def _update_mqtt_token(self) -> None:
         """Update MQTT client with refreshed session data."""
@@ -214,6 +259,9 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     async def async_shutdown(self) -> None:
         """Shutdown coordinator."""
+        if self._post_command_refresh_unsub:
+            self._post_command_refresh_unsub()
+            self._post_command_refresh_unsub = None
         if self.mqtt_client:
             await self.mqtt_client.disconnect()
         await super().async_shutdown()
@@ -223,8 +271,7 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     ) -> None:
         """Set device property (value may be a struct dict e.g. HSVColor)."""
         _LOGGER.debug("set_device_property iot_id=%s property_id=%s value=%s", iot_id, property_id, value)
-        await self.client.set_device_properties(iot_id, {property_id: value})
-        await self.async_request_refresh()
+        await self.set_device_properties_bulk(iot_id, {property_id: value})
 
     async def set_device_properties_bulk(
         self, iot_id: str, items: dict[str, int | float | str | dict[str, Any]]
@@ -232,4 +279,22 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         """Set multiple device properties in one API call."""
         _LOGGER.debug("set_device_properties_bulk iot_id=%s items=%s", iot_id, items)
         await self.client.set_device_properties(iot_id, items)
-        await self.async_request_refresh()
+        # Optimistic update: show the new state right away. No timestamp, so the next
+        # poll/MQTT push with the real device state always wins.
+        self._apply_property_values(iot_id, items, None)
+        self._schedule_post_command_refresh()
+
+    @callback
+    def _schedule_post_command_refresh(self) -> None:
+        """Re-read state from the cloud a few seconds after a command (debounced)."""
+        if self._post_command_refresh_unsub:
+            self._post_command_refresh_unsub()
+
+        @callback
+        def _refresh(_now: Any) -> None:
+            self._post_command_refresh_unsub = None
+            self.hass.async_create_task(self.async_request_refresh())
+
+        self._post_command_refresh_unsub = async_call_later(
+            self.hass, POST_COMMAND_REFRESH_DELAY, _refresh
+        )
