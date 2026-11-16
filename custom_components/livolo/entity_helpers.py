@@ -25,6 +25,11 @@ def get_property_value(device: dict[str, Any] | None, prop_id: str) -> Any:
     return None
 
 
+def is_gateway(device: dict[str, Any]) -> bool:
+    """True for Livolo gateways (hubs that own sub-devices)."""
+    return device.get("nodeType") == "GATEWAY" or device.get("categoryKey") == "GeneralGateway"
+
+
 def normalize_on(value: Any) -> bool:
     return value in (1, True, "1")
 

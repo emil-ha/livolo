@@ -8,6 +8,7 @@ from homeassistant.components.sensor import SensorDeviceClass, SensorEntity, Sen
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     PERCENTAGE,
+    EntityCategory,
     UnitOfElectricCurrent,
     UnitOfElectricPotential,
     UnitOfPower,
@@ -20,8 +21,16 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import CONF_HAS_ENTITY_NAME, DOMAIN
 from .coordinator import LivoloDataUpdateCoordinator
-from .device_property_utils import format_readonly_value, get_property_label, iter_readonly_sensor_properties
-from .entity_helpers import find_device, get_property_value
+from .device_property_utils import (
+    CLOUD_STATUS_LABELS,
+    CLOUD_STATUS_UNKNOWN,
+    format_readonly_value,
+    get_cloud_status,
+    get_cloud_status_label,
+    get_property_label,
+    iter_readonly_sensor_properties,
+)
+from .entity_helpers import find_device, get_property_value, is_gateway
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -65,15 +74,19 @@ async def async_setup_entry(
         for device_id in device_ids:
             device_to_gateway[device_id] = gateway_id
 
-    entities: list[LivoloSensorEntity] = []
+    entities: list[SensorEntity] = []
     for device in devices:
         iot_id = device.get("iotId") or device.get("elementId")
         if not iot_id:
             continue
-        is_gateway = device.get("nodeType") == "GATEWAY" or device.get("categoryKey") == "GeneralGateway"
-        gateway_iot_id = device_to_gateway.get(iot_id) if not is_gateway else None
+        device_is_gateway = is_gateway(device)
+        gateway_iot_id = device_to_gateway.get(iot_id) if not device_is_gateway else None
         device_name = device.get("nickName") or device.get("name") or iot_id
         pk = device.get("productKey")
+
+        entities.append(
+            LivoloCloudStatusSensor(coordinator, iot_id, device_name, device, gateway_iot_id)
+        )
 
         for prop_id in iter_readonly_sensor_properties(device):
             dc, unit, state_class = _sensor_meta(prop_id)
@@ -123,13 +136,13 @@ class LivoloSensorEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], SensorE
         self._attr_native_unit_of_measurement = native_unit
         self._attr_state_class = state_class
 
-        is_gateway = device_info.get("nodeType") == "GATEWAY" or device_info.get("categoryKey") == "GeneralGateway"
+        device_is_gateway = is_gateway(device_info)
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, iot_id)},
             name=device_name,
             manufacturer="Livolo",
             model=device_info.get("categoryKey") or "Livolo",
-            via_device=(DOMAIN, gateway_iot_id) if gateway_iot_id and not is_gateway else None,
+            via_device=(DOMAIN, gateway_iot_id) if gateway_iot_id and not device_is_gateway else None,
         )
 
     def _device(self) -> dict[str, Any] | None:
@@ -156,3 +169,51 @@ class LivoloSensorEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], SensorE
         if isinstance(raw, (int, float)):
             return raw
         return format_readonly_value(raw)
+
+
+class LivoloCloudStatusSensor(CoordinatorEntity[LivoloDataUpdateCoordinator], SensorEntity):
+    """Cloud status of a device as reported by the Livolo cloud ("status" field).
+
+    State is a label (Online, Offline, ...) or "Unknown" for unmapped codes; the raw
+    code is exposed as the cloud_status_int attribute.
+    """
+
+    _attr_device_class = SensorDeviceClass.ENUM
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+    _attr_options = [*CLOUD_STATUS_LABELS.values(), CLOUD_STATUS_UNKNOWN]
+
+    def __init__(
+        self,
+        coordinator: LivoloDataUpdateCoordinator,
+        iot_id: str,
+        device_name: str,
+        device_info: dict[str, Any],
+        gateway_iot_id: str | None,
+    ) -> None:
+        super().__init__(coordinator)
+        self._iot_id = iot_id
+        self._attr_unique_id = f"{iot_id}_cloud_status"
+        self._attr_has_entity_name = bool(
+            coordinator.entry.options.get(CONF_HAS_ENTITY_NAME, False)
+        )
+        self._attr_name = (
+            "Cloud status" if self._attr_has_entity_name else f"{device_name} Cloud status"
+        )
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, iot_id)},
+            name=device_name,
+            manufacturer="Livolo",
+            model=device_info.get("categoryKey") or "Livolo",
+            via_device=(DOMAIN, gateway_iot_id) if gateway_iot_id else None,
+        )
+
+    def _status(self) -> int | None:
+        return get_cloud_status(find_device(self.coordinator.data.get("devices", []), self._iot_id))
+
+    @property
+    def native_value(self) -> str:
+        return get_cloud_status_label(self._status())
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        return {"cloud_status_int": self._status()}

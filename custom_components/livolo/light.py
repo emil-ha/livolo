@@ -31,6 +31,7 @@ from .entity_helpers import (
     find_device,
     get_property_value,
     hs_color_tuple_from_hsv_property,
+    is_gateway,
     normalize_on,
     parse_livolo_hsv_struct,
 )
@@ -64,8 +65,8 @@ async def async_setup_entry(
     device_registry = dr.async_get(hass)
 
     for device in devices:
-        is_gateway = device.get("nodeType") == "GATEWAY" or device.get("categoryKey") == "GeneralGateway"
-        if is_gateway:
+        device_is_gateway = is_gateway(device)
+        if device_is_gateway:
             gateway_element_id = device.get("iotId") or device.get("elementId")
             if gateway_element_id:
                 device_registry.async_get_or_create(
@@ -81,8 +82,8 @@ async def async_setup_entry(
         if not iot_id:
             continue
 
-        is_gateway = device.get("nodeType") == "GATEWAY" or device.get("categoryKey") == "GeneralGateway"
-        gateway_iot_id = device_to_gateway.get(iot_id) if not is_gateway else None
+        device_is_gateway = is_gateway(device)
+        gateway_iot_id = device_to_gateway.get(iot_id) if not device_is_gateway else None
         device_name = device.get("nickName") or device.get("name") or iot_id
 
         for prop_id in iter_power_switch_light_identifiers(device):
@@ -153,13 +154,13 @@ class LivoloOnOffLightEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], Lig
         )
         self._attr_name = _display_name_for_property(device_info, property_id, property_id)
 
-        is_gateway = device_info.get("nodeType") == "GATEWAY" or device_info.get("categoryKey") == "GeneralGateway"
+        device_is_gateway = is_gateway(device_info)
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, iot_id)},
             name=device_name,
             manufacturer="Livolo",
-            model=device_info.get("categoryKey") or ("Livolo Gateway" if is_gateway else "Livolo"),
-            via_device=(DOMAIN, gateway_iot_id) if gateway_iot_id and not is_gateway else None,
+            model=device_info.get("categoryKey") or ("Livolo Gateway" if device_is_gateway else "Livolo"),
+            via_device=(DOMAIN, gateway_iot_id) if gateway_iot_id and not device_is_gateway else None,
         )
 
     def _device(self) -> dict[str, Any] | None:
@@ -210,13 +211,13 @@ class LivoloDimmerLightEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], Li
         label = _display_name_for_property(device_info, power_property_id, power_property_id)
         self._attr_name = label
 
-        is_gateway = device_info.get("nodeType") == "GATEWAY" or device_info.get("categoryKey") == "GeneralGateway"
+        device_is_gateway = is_gateway(device_info)
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, iot_id)},
             name=device_name,
             manufacturer="Livolo",
-            model=device_info.get("categoryKey") or ("Livolo Gateway" if is_gateway else "Livolo"),
-            via_device=(DOMAIN, gateway_iot_id) if gateway_iot_id and not is_gateway else None,
+            model=device_info.get("categoryKey") or ("Livolo Gateway" if device_is_gateway else "Livolo"),
+            via_device=(DOMAIN, gateway_iot_id) if gateway_iot_id and not device_is_gateway else None,
         )
 
         if brightness_property_id:
@@ -295,13 +296,13 @@ class LivoloSmartLightEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], Lig
         )
         self._attr_name = device_name
 
-        is_gateway = device_info.get("nodeType") == "GATEWAY" or device_info.get("categoryKey") == "GeneralGateway"
+        device_is_gateway = is_gateway(device_info)
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, iot_id)},
             name=device_name,
             manufacturer="Livolo",
             model=device_info.get("categoryKey") or "Livolo Light",
-            via_device=(DOMAIN, gateway_iot_id) if gateway_iot_id and not is_gateway else None,
+            via_device=(DOMAIN, gateway_iot_id) if gateway_iot_id and not device_is_gateway else None,
         )
 
         # Home Assistant validates supported_color_modes strictly:

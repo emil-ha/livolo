@@ -56,6 +56,31 @@ After installation, your Livolo devices will appear in Home Assistant as entitie
 
 Entities are named using the Livolo device name plus the feature/channel name (for example: "Kitchen Switch 1").
 
+### Cloud status
+
+Every device (gateways and sub-devices) gets two diagnostic entities driven by the device `status` field from the Livolo cloud. They refresh with the regular 60 s poll.
+
+- `binary_sensor.<device>_cloud_connection` (device class `connectivity`): `on` while the cloud reports the device online (`status` 1), `off` for any other status.
+- `sensor.<device>_cloud_status` (device class `enum`): `Online`, `Offline`, `Inactive`, `Disabled`, or `Unknown` for codes that are not mapped yet. The raw code is in the `cloud_status_int` attribute.
+
+For a gateway this shows its session with the cloud. It does not prove that commands reach the sub-devices: a gateway can stay `Online` while its link to the sub-devices is stuck.
+
+Example automation: notify when a gateway has been offline for 5 minutes.
+
+```yaml
+automation:
+  - alias: "Livolo gateway offline"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.<your_gateway>_cloud_connection
+        to: "off"
+        for: "00:05:00"
+    action:
+      - service: notify.notify
+        data:
+          message: "Livolo gateway {{ trigger.to_state.name }} is offline"
+```
+
 ### Dashboard YAML Template Generator
 
 The integration includes a service to automatically generate Lovelace YAML templates that group your Livolo entities by device.

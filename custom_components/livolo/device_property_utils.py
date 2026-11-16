@@ -6,6 +6,33 @@ from typing import Any
 
 SMART_LIGHT_PRODUCT_KEYS = frozenset({"a1pPiEXahAk", "a1eqRoAMvAE", "a1tZKOdSDZ6"})
 
+# Alibaba IoT device status codes ("status" field of the cloud device list).
+# Codes not listed here are reported as CLOUD_STATUS_UNKNOWN; the raw value is kept
+# in the cloud_status_int attribute so new labels can be added once their meaning is known.
+CLOUD_STATUS_ONLINE = 1
+CLOUD_STATUS_UNKNOWN = "Unknown"
+CLOUD_STATUS_LABELS: dict[int, str] = {0: "Inactive", 1: "Online", 3: "Offline", 8: "Disabled"}
+
+
+def get_cloud_status(device: dict[str, Any] | None) -> int | None:
+    """Raw cloud status code of a device, or None when the device has none."""
+    if not device:
+        return None
+    raw = device.get("status")
+    if isinstance(raw, dict):
+        raw = raw.get("value")
+    try:
+        return int(raw)
+    except (TypeError, ValueError):
+        return None
+
+
+def get_cloud_status_label(status: int | None) -> str:
+    """Human label for a cloud status code; CLOUD_STATUS_UNKNOWN for unmapped codes."""
+    if status is None:
+        return CLOUD_STATUS_UNKNOWN
+    return CLOUD_STATUS_LABELS.get(status, CLOUD_STATUS_UNKNOWN)
+
 # categoryKey: wall-style devices use PowerSwitch* as lights; Socket uses SocketSwitch* (and Power* on some socket SKUs) as switches.
 # Note: some firmwares report categoryKey in lowercase (e.g. "switch" for WiFi wall switches).
 # Normalize categoryKey comparisons by lowercasing.
