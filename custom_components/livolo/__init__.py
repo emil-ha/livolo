@@ -13,6 +13,7 @@ from .const import DOMAIN
 from .coordinator import LivoloDataUpdateCoordinator
 
 PLATFORMS: list[Platform] = [
+    Platform.BINARY_SENSOR,
     Platform.LIGHT,
     Platform.SWITCH,
     Platform.COVER,

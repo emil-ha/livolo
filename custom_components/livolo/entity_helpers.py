@@ -25,6 +25,29 @@ def get_property_value(device: dict[str, Any] | None, prop_id: str) -> Any:
     return None
 
 
+def is_gateway(device: dict[str, Any]) -> bool:
+    """True for Livolo gateways (hubs that own sub-devices)."""
+    return device.get("nodeType") == "GATEWAY" or device.get("categoryKey") == "GeneralGateway"
+
+
+# Alibaba IoT device status codes returned in the device list ("status" field).
+DEVICE_STATUS_ONLINE = 1
+DEVICE_STATUS_LABELS = {0: "inactive", 1: "online", 3: "offline", 8: "disabled"}
+
+
+def device_cloud_status(device: dict[str, Any] | None) -> int | None:
+    """Cloud connection status code of a device, or None when unknown."""
+    if not device:
+        return None
+    raw = device.get("status")
+    if isinstance(raw, dict):
+        raw = raw.get("value")
+    try:
+        return int(raw)
+    except (TypeError, ValueError):
+        return None
+
+
 def normalize_on(value: Any) -> bool:
     return value in (1, True, "1")
 
