@@ -13,6 +13,7 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import APP_KEY, APP_SECRET, CONF_MOCK_MODE, DOMAIN, TOKEN_EXPIRY_BUFFER_MS
+from .entity_helpers import is_gateway
 from .livolo_client import LivoloClient
 from .mqtt_client import LivoloMqttClient
 
@@ -83,7 +84,7 @@ class LivoloDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             # Find all gateways
             gateways = [
                 d for d in devices
-                if (d.get("nodeType") == "GATEWAY" or d.get("categoryKey") == "GeneralGateway")
+                if is_gateway(d)
             ]
             
             # Query each gateway for its subdevices

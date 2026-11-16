@@ -56,11 +56,14 @@ After installation, your Livolo devices will appear in Home Assistant as entitie
 
 Entities are named using the Livolo device name plus the feature/channel name (for example: "Kitchen Switch 1").
 
-### Gateway health
+### Cloud status
 
-Each gateway gets a diagnostic `binary_sensor` "Cloud connection" (device class `connectivity`). It reflects the device `status` field from the Livolo cloud: `on` while the cloud reports the gateway online (`status` 1), `off` when it reports any other status (for example 3 = offline after the gateway loses its cloud session). The state refreshes with the regular 60 s poll. A gateway can still answer ping on the LAN while its cloud session is down, so a ping check alone may miss that.
+Every device (gateways and sub-devices) gets two diagnostic entities driven by the device `status` field from the Livolo cloud. They refresh with the regular 60 s poll.
 
-Attributes: `cloud_status` (`online`, `offline`, `inactive`, `disabled`), `ip_address`, `product_name`, `sub_devices`.
+- `binary_sensor.<device>_cloud_connection` (device class `connectivity`): `on` while the cloud reports the device online (`status` 1), `off` for any other status.
+- `sensor.<device>_cloud_status` (device class `enum`): `Online`, `Offline`, `Inactive`, `Disabled`, or `Unknown` for codes that are not mapped yet. The raw code is in the `cloud_status_int` attribute.
+
+For a gateway this shows its session with the cloud. It does not prove that commands reach the sub-devices: a gateway can stay `Online` while its link to the sub-devices is stuck.
 
 Example automation: notify when a gateway has been offline for 5 minutes.
 

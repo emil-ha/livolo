@@ -14,7 +14,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import CONF_HAS_ENTITY_NAME, DOMAIN
 from .coordinator import LivoloDataUpdateCoordinator
 from .device_property_utils import get_property_label, should_create_lock
-from .entity_helpers import find_device, get_property_value, normalize_on
+from .entity_helpers import find_device, get_property_value, is_gateway, normalize_on
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -45,8 +45,8 @@ async def async_setup_entry(
         iot_id = device.get("iotId") or device.get("elementId")
         if not iot_id:
             continue
-        is_gateway = device.get("nodeType") == "GATEWAY" or device.get("categoryKey") == "GeneralGateway"
-        gateway_iot_id = device_to_gateway.get(iot_id) if not is_gateway else None
+        device_is_gateway = is_gateway(device)
+        gateway_iot_id = device_to_gateway.get(iot_id) if not device_is_gateway else None
         device_name = device.get("nickName") or device.get("name") or iot_id
         entities.append(
             LivoloLockEntity(
@@ -81,13 +81,13 @@ class LivoloLockEntity(CoordinatorEntity[LivoloDataUpdateCoordinator], LockEntit
         pk = device_info.get("productKey")
         self._attr_name = get_property_label(_STATUS_PROP, pk) or "Lock"
 
-        is_gateway = device_info.get("nodeType") == "GATEWAY" or device_info.get("categoryKey") == "GeneralGateway"
+        device_is_gateway = is_gateway(device_info)
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, iot_id)},
             name=device_name,
             manufacturer="Livolo",
             model=device_info.get("categoryKey") or "Livolo Lock",
-            via_device=(DOMAIN, gateway_iot_id) if gateway_iot_id and not is_gateway else None,
+            via_device=(DOMAIN, gateway_iot_id) if gateway_iot_id and not device_is_gateway else None,
         )
 
     def _device(self) -> dict[str, Any] | None:
